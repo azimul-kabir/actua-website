@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#6750A4">
-  <meta name="description" content="Actua is a native Android app for Actual Budget.">
+  <meta name="theme-color" content="#4B18D1">
+  <meta name="description" content="Actua is a native Android app for Actual Budget, built with Kotlin and Jetpack Compose. Free, open source, and privacy-focused.">
   <title>Actua · Actual Budget for Android</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
@@ -12,11 +12,12 @@
 <body>
   <header class="topbar">
     <a class="brand" href="#" aria-label="Actua home">
-      <span class="brand-mark">A</span>
+      <img class="brand-mark" src="images/actua-icon.svg" alt="" width="38" height="38">
       <span>Actua</span>
     </a>
     <nav>
       <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
       <a href="#download">Download</a>
       <a href="#community">Community</a>
       <a class="nav-button" href="https://github.com/azimul-kabir/actua">GitHub</a>
@@ -28,31 +29,18 @@
       <div class="hero-copy">
         <div class="eyebrow">OPEN SOURCE · ANDROID</div>
         <h1>Actual Budget,<br><span>made for Android.</span></h1>
-        <p class="hero-text">Actua is a native Android app for <strong>Actual Budget</strong>, built with Kotlin and Jetpack Compose for a smooth, modern mobile experience.</p>
+        <p class="hero-text">Actua is a native Android client for <strong>Actual Budget</strong>, built with Kotlin and Jetpack Compose. Connect to your self-hosted server for a fast, Material You mobile experience with offline budgets and encrypted sync.</p>
         <div class="actions">
           <a class="button primary" href="https://github.com/azimul-kabir/actua/releases/latest">Download latest</a>
           <a class="button secondary" href="https://discord.gg/FyGxRjmhw">Join Discord</a>
         </div>
         <p class="fine-print">Android 9+ · Free & open source · MIT licensed</p>
       </div>
-      <div class="hero-visual" aria-label="Actua app preview">
-        <div class="phone phone-back"><div class="phone-screen muted"></div></div>
+      <div class="hero-visual" aria-label="Actua app screenshots">
+        <div class="phone phone-back"><img src="images/screenshots/accounts.jpg" alt="Actua accounts screen"></div>
         <div class="phone phone-front">
           <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="screen-header"><span>September</span><b>⋮</b></div>
-            <div class="balance-label">Ready to assign</div>
-            <div class="balance">৳ 42,580</div>
-            <div class="progress"><span></span></div>
-            <div class="mini-grid">
-              <div><small>Food</small><strong>৳ 8,400</strong></div>
-              <div><small>Transport</small><strong>৳ 4,200</strong></div>
-              <div><small>Home</small><strong>৳ 12,000</strong></div>
-              <div><small>Personal</small><strong>৳ 3,500</strong></div>
-            </div>
-            <div class="screen-card"><span>✓</span><div><b>Monthly budget</b><small>Everything is on track</small></div></div>
-            <div class="screen-card"><span>↗</span><div><b>Recent spending</b><small>View your transactions</small></div></div>
-          </div>
+          <img src="images/screenshots/budget.jpg" alt="Actua budget screen with categories, targets and progress">
         </div>
       </div>
     </section>
@@ -72,12 +60,15 @@
         <p>Use your Actual Budget wherever you are, without wrapping the web app in a browser.</p>
       </div>
       <div class="feature-grid">
-        <article class="feature"><div class="icon">✦</div><h3>Native & smooth</h3><p>Built with Kotlin and Jetpack Compose for a responsive Android experience.</p></article>
-        <article class="feature"><div class="icon">↻</div><h3>Actual Budget sync</h3><p>Connect to your Actual Budget server and keep your budgets and transactions in sync.</p></article>
-        <article class="feature"><div class="icon">▦</div><h3>Budgets at a glance</h3><p>Plan, assign, and review your money with a compact mobile-first interface.</p></article>
-        <article class="feature"><div class="icon">⌁</div><h3>Transactions</h3><p>Quickly add, edit, search, split, and reconcile transactions from your phone.</p></article>
-        <article class="feature"><div class="icon">◔</div><h3>Reports & insights</h3><p>Understand where your money goes with reports designed for a smaller screen.</p></article>
-        <article class="feature"><div class="icon">⌘</div><h3>Open source</h3><p>Actua is community-driven. Inspect the code, report issues, suggest ideas, or contribute.</p></article>
+        <article class="feature"><div class="icon">✦</div><h3>Native & smooth</h3><p>Built with Kotlin and Jetpack Compose, with a Material You interface and optional dynamic color on Android 12+.</p></article>
+        <article class="feature"><div class="icon">▦</div><h3>Home dashboard</h3><p>An at-a-glance overview of ready-to-budget, favorites, upcoming bills, and recent activity — customizable via drag-to-reorder.</p></article>
+        <article class="feature"><div class="icon">↻</div><h3>Offline & encrypted sync</h3><p>Keeps a local copy of your budget for offline use and synchronizes changes back to your Actual server, encrypted end-to-end.</p></article>
+        <article class="feature"><div class="icon">⌁</div><h3>Transactions & reconciliation</h3><p>Add, edit, search, split, transfer, and reconcile transactions right from your phone.</p></article>
+        <article class="feature"><div class="icon">📅</div><h3>Schedules & bills</h3><p>Scheduled transactions, a bills calendar, and payment reminders keep upcoming money moves visible.</p></article>
+        <article class="feature"><div class="icon">◔</div><h3>Reports & dashboards</h3><p>Actual's dashboard and saved custom reports, with donut and per-interval charts, filtering, and drill-down to transactions.</p></article>
+        <article class="feature"><div class="icon">✂</div><h3>Rules & automation</h3><p>Automatic categorization with Actual's rules engine, plus CSV, XLSX, PDF, SMS, and notification imports.</p></article>
+        <article class="feature"><div class="icon">🔑</div><h3>Password & OIDC login</h3><p>Sign in with a password or OpenID/OIDC, and explore instantly with a built-in local demo budget — no server required.</p></article>
+        <article class="feature"><div class="icon">⌘</div><h3>Open source</h3><p>Actua is community-driven. Inspect the code, report issues, suggest ideas, or contribute on GitHub.</p></article>
       </div>
     </section>
 
@@ -87,10 +78,10 @@
         <h2>Your budget should feel at home on Android.</h2>
         <p>Actua brings the familiar ideas of Actual Budget into an interface designed around touch, Material You, and Android conventions.</p>
         <ul>
-          <li>Fast navigation with a native UI</li>
-          <li>Clean budget and account views</li>
-          <li>Dark mode and dynamic Android theming</li>
-          <li>Designed to stay useful on the go</li>
+          <li>Customizable bottom tabs and home-screen widgets</li>
+          <li>App-wide favorites for categories, accounts and reports</li>
+          <li>Colored tag rendering with tap-to-filter transactions</li>
+          <li>Automatic local backups, global search, and launcher shortcuts</li>
         </ul>
       </div>
       <div class="quote-card">
@@ -100,12 +91,30 @@
       </div>
     </section>
 
+    <section id="screenshots" class="section screenshots">
+      <div class="section-heading">
+        <div class="eyebrow">SEE IT IN ACTION</div>
+        <h2>A closer look at Actua.</h2>
+        <p>Real screenshots from the app — budgets, accounts, transactions, reports, bills, and rules.</p>
+      </div>
+      <div class="screenshot-grid">
+        <a href="images/screenshots/budget.jpg"><img src="images/screenshots/budget.jpg" alt="Actua budget view with categories, targets and progress" loading="lazy"><span>Budget</span></a>
+        <a href="images/screenshots/accounts.jpg"><img src="images/screenshots/accounts.jpg" alt="Actua accounts overview" loading="lazy"><span>Accounts</span></a>
+        <a href="images/screenshots/transactions.jpg"><img src="images/screenshots/transactions.jpg" alt="Actua transaction list" loading="lazy"><span>Transactions</span></a>
+        <a href="images/screenshots/add-transaction.jpg"><img src="images/screenshots/add-transaction.jpg" alt="Actua add transaction screen" loading="lazy"><span>Add transaction</span></a>
+        <a href="images/screenshots/reports.jpg"><img src="images/screenshots/reports.jpg" alt="Actua reports with income vs expenses chart" loading="lazy"><span>Reports</span></a>
+        <a href="images/screenshots/bills-calendar.jpg"><img src="images/screenshots/bills-calendar.jpg" alt="Actua bills calendar" loading="lazy"><span>Bills calendar</span></a>
+        <a href="images/screenshots/rules.jpg"><img src="images/screenshots/rules.jpg" alt="Actua rules and automatic categorization" loading="lazy"><span>Rules</span></a>
+        <a href="images/screenshots/budget-table.jpg"><img src="images/screenshots/budget-table.jpg" alt="Actua budget table view with budgeted, spent and balance columns" loading="lazy"><span>Budget table</span></a>
+      </div>
+    </section>
+
     <section id="download" class="download section">
       <div class="download-card">
         <div>
           <div class="eyebrow">GET ACTUA</div>
           <h2>Try Actua today.</h2>
-          <p>Download the latest release from GitHub. Google Play distribution is coming as the production listing is completed.</p>
+          <p>Download the latest release from GitHub, or add Actua to Obtainium for update notifications and in-place upgrades. Google Play distribution is coming as the production listing is completed.</p>
         </div>
         <div class="download-actions">
           <a class="button primary" href="https://github.com/azimul-kabir/actua/releases/latest">GitHub Releases</a>
@@ -129,15 +138,21 @@
 
     <section class="faq section">
       <div class="section-heading"><div class="eyebrow">FAQ</div><h2>Good to know.</h2></div>
-      <details><summary>Is Actua free?</summary><p>Yes. Actua is free and open source. There is no subscription for the app.</p></details>
-      <details><summary>Is Actua the official Actual Budget app?</summary><p>No. Actua is an independent community project and is not the official Actual Budget application.</p></details>
-      <details><summary>Where can I report a problem?</summary><p>Use the GitHub issue tracker or join Discord to discuss a problem with the community.</p></details>
-      <details><summary>What is Actual Budget?</summary><p>Actual Budget is a privacy-focused, local-first personal finance and budgeting application. Visit the official Actual Budget website to learn more.</p></details>
+      <details><summary>Is Actua free?</summary><p>Yes. Actua is free and open source under the MIT License. There is no subscription for the app.</p></details>
+      <details><summary>Is Actua the official Actual Budget app?</summary><p>No. Actua is an independent community project and is not affiliated with or endorsed by Actual Budget.</p></details>
+      <details><summary>What is Actual Budget?</summary><p>Actual Budget is a privacy-focused, local-first personal finance and budgeting application that you can self-host. Visit <a href="https://actualbudget.org/">actualbudget.org</a> to learn more.</p></details>
+      <details><summary>Do I need my own Actual Budget server?</summary><p>Yes, Actua connects directly to a self-hosted Actual Budget server. If you don't have one handy, open Manage → Connection & Data → Try demo budget to explore Actua with a completely local sample budget.</p></details>
+      <details><summary>Does Actua work offline?</summary><p>Yes. Actua keeps a local copy of your budget for offline use and synchronizes changes with your Actual server, with encrypted sync, when you're back online.</p></details>
+      <details><summary>Is it safe to connect Actua to my budget?</summary><p>Actua can write changes to your synchronized Actual budget. We recommend backing up important budgets before connecting a new client, and reporting any unexpected sync behavior on GitHub.</p></details>
+      <details><summary>What Android version do I need?</summary><p>Actua requires Android 9 or newer. Dynamic Material You theming is available on Android 12+.</p></details>
+      <details><summary>Where can I report a problem or request a feature?</summary><p>Open an issue on <a href="https://github.com/azimul-kabir/actua/issues">GitHub</a>, or join <a href="https://discord.gg/FyGxRjmhw">Discord</a> to discuss it with the community.</p></details>
+      <details><summary>Is Actua on Google Play?</summary><p>Not yet — the production Play Store listing is in progress. In the meantime, download the APK from GitHub Releases or use Obtainium for automatic update notifications.</p></details>
+      <details><summary>Who builds Actua?</summary><p>Actua is community-built and was originally based on and informed by <a href="https://github.com/MattFaz/actuali">Actuali</a>, the open-source iOS client by Matt Farrell. Contributions are welcome.</p></details>
     </section>
   </main>
 
   <footer>
-    <div class="footer-brand"><span class="brand-mark">A</span><strong>Actua</strong></div>
+    <div class="footer-brand"><img class="brand-mark" src="images/actua-icon.svg" alt="" width="32" height="32"><strong>Actua</strong></div>
     <p>Native Android app for Actual Budget.</p>
     <div class="footer-links">
       <a href="https://github.com/azimul-kabir/actua">GitHub</a>
