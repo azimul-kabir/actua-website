@@ -21,4 +21,4 @@ https://azimul-kabir.github.io/actua-website/
 
 - Actua: https://github.com/azimul-kabir/actua
 - Discord: https://discord.gg/FyGxRjmhw
-- Beta testers: https://groups.google.com/g/actua-testers
+- Google Play access: https://groups.google.com/g/actua-testers
