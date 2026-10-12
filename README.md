@@ -11,14 +11,17 @@ This is a static website with no build step. It can be deployed for free with Gi
 1. Open **Settings → Pages** in this repository.
 2. Under **Build and deployment**, choose **Deploy from a branch**.
 3. Select **main** and **/(root)**.
-4. Save.
+4. Set the custom domain to `actua.azimulkabir.com` and save.
 
-The site will be available at:
+The production website is:
 
-https://azimul-kabir.github.io/actua-website/
+https://actua.azimulkabir.com/
 
 ## Links
 
-- Actua: https://github.com/azimul-kabir/actua
-- Discord: https://discord.gg/FyGxRjmhw
-- Google Play access: https://groups.google.com/g/actua-testers
+- Website: https://actua.azimulkabir.com/
+- Developer website: https://www.azimulkabir.com
+- Actua source and releases: https://github.com/azimul-kabir/actua
+- Obtainium: https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/azimul-kabir/actua
+- Discord: https://discord.gg/FhedEyP97f
+- Report an issue: https://github.com/azimul-kabir/actua/issues/new/choose
