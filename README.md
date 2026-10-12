@@ -24,4 +24,5 @@ https://actua.azimulkabir.com/
 - Actua source and releases: https://github.com/azimul-kabir/actua
 - Obtainium: https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/azimul-kabir/actua
 - Discord: https://discord.gg/FhedEyP97f
+- Google Play testing: https://groups.google.com/g/actua-testers (public release under review)
 - Report an issue: https://github.com/azimul-kabir/actua/issues/new/choose
