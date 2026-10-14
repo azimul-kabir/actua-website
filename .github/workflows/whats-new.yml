@@ -1,0 +1,48 @@
+name: Update What's new
+
+# Checks every hour for a new stable Actua release and, when there is one,
+# rewrites the "What's new" section and hero label in index.html and commits
+# it. Cloudflare Pages deploys the commit like any other push to main.
+# The actua repository can send a repository_dispatch event of type
+# "app-released" to update straight after a release.
+
+on:
+  schedule:
+    - cron: '41 * * * *'
+  repository_dispatch:
+    types: [app-released]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: whats-new
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Update index.html from the latest release
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/update-whats-new.mjs
+
+      - name: Commit and push
+        if: steps.update.outputs.changed == 'true'
+        env:
+          VERSION: ${{ steps.update.outputs.version }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m "Update What's new for Actua $VERSION"
+          git push

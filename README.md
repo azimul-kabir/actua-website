@@ -16,6 +16,12 @@ This is a static website with no build step. It is deployed with Cloudflare Page
 
 `404.html` is served for unknown paths, and `robots.txt` points search engines at `sitemap.xml`.
 
+### What's new
+
+The **What's new** section and the release label in the hero are generated from the latest stable [Actua release](https://github.com/azimul-kabir/actua/releases). `scripts/update-whats-new.mjs` takes that release's Play Store notes (`fastlane/metadata/android/en-US/changelogs/<versionCode>.txt`), or the first bullets of its `CHANGELOG.md` section when there are none, and writes them between the `<!-- whats-new -->` and `<!-- release-pill -->` markers in `index.html`.
+
+The **Update What's new** workflow runs it every hour and commits any change, which Cloudflare Pages then deploys. Run it by hand from the Actions tab, or locally with `node scripts/update-whats-new.mjs`. To update straight after a release instead of within the hour, the Actua release workflow can send a `repository_dispatch` event of type `app-released` to this repository.
+
 The production website is:
 
 https://actua.azimulkabir.com/
