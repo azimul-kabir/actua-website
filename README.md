@@ -4,14 +4,17 @@ The official website for [Actua](https://github.com/azimul-kabir/actua), a nativ
 
 ## Hosting
 
-This is a static website with no build step. It can be deployed for free with GitHub Pages or Cloudflare Pages.
+This is a static website with no build step. It is deployed with Cloudflare Pages, which publishes `main` on every push.
 
-### GitHub Pages
+### Cloudflare Pages
 
-1. Open **Settings → Pages** in this repository.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Select **main** and **/(root)**.
-4. Set the custom domain to `actua.azimulkabir.com` and save.
+- **Production branch:** `main`
+- **Framework preset:** None
+- **Build command:** empty
+- **Build output directory:** `/`
+- **Custom domain:** `actua.azimulkabir.com`
+
+`404.html` is served for unknown paths, and `robots.txt` points search engines at `sitemap.xml`.
 
 The production website is:
 
