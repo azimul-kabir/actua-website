@@ -1,0 +1,47 @@
+name: Update Privacy Policy
+
+# Checks periodically for changes to PRIVACY.md in azimul-kabir/actua,
+# regenerates privacy.html, and commits any changes to main.
+# Cloudflare Pages deploys the commit like any other push to main.
+# The actua repository can also send a repository_dispatch event of type
+# "privacy-updated" or "app-released" to update immediately.
+
+on:
+  schedule:
+    - cron: '15 */4 * * *'
+  repository_dispatch:
+    types: [privacy-updated, app-released]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: privacy-policy
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Update privacy.html from azimul-kabir/actua
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/update-privacy.mjs
+
+      - name: Commit and push
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add privacy.html
+          git commit -m "Update Privacy Policy from azimul-kabir/actua"
+          git pull --rebase
+          git push
