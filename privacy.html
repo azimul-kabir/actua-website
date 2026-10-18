@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4B18D1">
+  <meta name="description" content="Privacy Policy for Actua, an independent native Android client for Actual Budget. Explains how your budget data, credentials, and permissions are handled.">
+  <title>Privacy Policy · Actua</title>
+  <link rel="canonical" href="https://actua.azimulkabir.com/privacy.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Actua">
+  <meta property="og:title" content="Privacy Policy · Actua">
+  <meta property="og:description" content="Privacy Policy for Actua, an independent native Android client for Actual Budget. Free, open source, and privacy-focused.">
+  <meta property="og:url" content="https://actua.azimulkabir.com/privacy.html">
+  <meta property="og:image" content="https://actua.azimulkabir.com/images/actua-hero.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="675">
+  <meta property="og:image:alt" content="Actua, a native Android client for Actual Budget">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Actua home">
+      <img class="brand-mark" src="/images/actua-icon.svg" alt="" width="38" height="38">
+      <span>Actua</span>
+    </a>
+    <nav>
+      <a href="/#features">Features</a>
+      <a href="/#screenshots">Screenshots</a>
+      <a class="nav-keep" href="/#download">Download</a>
+      <a href="/#faq">FAQ</a>
+      <a class="nav-button" href="https://github.com/azimul-kabir/actua">
+        <svg class="icon-svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="legal-container">
+      <article class="legal-card">
+        <header class="legal-header">
+          <div class="eyebrow">LEGAL &amp; PRIVACY</div>
+          <h1>Privacy Policy</h1>
+          <p class="legal-meta">
+            <span>Last updated: <time datetime="2026-10-13">13 October 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
+            <a href="https://github.com/azimul-kabir/actua/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
+          </p>
+        </header>
+
+        <div class="legal-body">
+        <p>Actua is an independent, community-built Android client for <a href="https://actualbudget.org/" target="_blank" rel="noopener noreferrer">Actual Budget</a>. It is not affiliated with or endorsed by the Actual Budget team. This policy explains what data Actua handles and where it goes.</p>
+
+        <h2 id="your-budget-data">Your budget data</h2>
+
+        <p>Actua connects directly to the Actual server <strong>you</strong> configure — your own self-hosted instance. Budget data (accounts, transactions, categories, budgets, rules, schedules and reports) is synchronized between that server and your device using Actual's end-to-end encrypted sync protocol, and a copy is kept in a local, on-device SQLite database so the app works offline.</p>
+
+        <p>Actua does not operate a server of its own, and your budget data is never sent to the developer or to any third party controlled by this project. The only network destination for your budget data is the Actual server you provide.</p>
+
+        <h2 id="credentials-and-encryption-keys">Credentials and encryption keys</h2>
+
+        <p>Server credentials and sync/encryption keys are stored using the Android Keystore and are not readable by other apps. They are never logged or transmitted anywhere other than to your configured Actual server as part of authentication and sync.</p>
+
+        <h2 id="location-aware-payees">Location-aware payees</h2>
+
+        <p>Actua can optionally suggest payees based on your location while the app is open. This feature is off by default, requires you to explicitly grant foreground location permission, and does not run in the background. When enabled, any saved payee coordinates are stored as part of your budget data (local SQLite database and your Actual server, subject to the same sync described above) — not with any separate location or advertising service. You can inspect or delete saved payee locations at any time from Settings → Privacy → Payee Locations, or turn the feature off to stop recording new locations.</p>
+
+        <h2 id="imports">Imports</h2>
+
+        <p>CSV, XLSX, PDF, SMS and notification imports are processed entirely on your device to create transactions in your budget. Imported files and their contents are not uploaded anywhere except as part of the transactions they produce, which sync to your own Actual server like any other budget data.</p>
+
+        <h2 id="bank-notifications-and-automation-apps">Bank notifications and automation apps</h2>
+
+        <p>Capturing bank notifications is off by default. It works only after you turn it on, choose which apps to read, and grant Actua notification access in Android's settings. Actua then reads the title and text of new notifications from those apps only, on your device. It keeps just the transaction details it recognizes (date, amount, payee, reference, a card or account suffix, the source app's name) in a review queue on your device; it does not store the notification itself and ignores notifications from every other app.</p>
+
+        <p>Transactions sent by Tasker or other automation apps are accepted only while you have turned that option on, only with the private token Actua shows you, and they join the same queue. Nothing in the queue is written to your budget until you approve it.</p>
+
+        <p>To pre-fill accounts, Actua remembers on your device the account you chose for each card or source and an optional default account, per budget. Deleting notification data on the import screen removes the queue, those choices, the parser settings and the token.</p>
+
+        <h2 id="notifications">Notifications</h2>
+
+        <p>Actua can post notifications only when you turn them on: credit-card payment reminders, scheduled-transaction reminders, and a notification for each captured transaction. They are created on your device from your budget data and never sent through a notification service. Scheduled-transaction reminders and capture notifications hide their details on a secure lock screen.</p>
+
+        <h2 id="local-network-access">Local network access</h2>
+
+        <p>On Android 17 and later, Actua asks for Nearby devices (local network) access only when your Actual server's address is on your local network. It is used only to reach that server.</p>
+
+        <h2 id="no-analytics-ads-or-tracking">No analytics, ads or tracking</h2>
+
+        <p>Actua does not include analytics, crash reporting, advertising or other third-party tracking SDKs, and does not collect usage data about you.</p>
+
+        <h2 id="diagnostics">Diagnostics</h2>
+
+        <p>Actua keeps a short log of recent app activity on your device (Settings → About → Diagnostics) to help troubleshoot problems: crashes, failed actions, screens opened, syncs and server requests. It records error types, code locations, request paths, status codes, timings and counts only. It never records error text, your server address, passwords, tokens, encryption keys or budget data. Entries older than seven days are deleted, and you can clear the log at any time. The log never leaves your device unless you copy, save or email the report yourself.</p>
+
+        <h2 id="backups-and-google-drive">Backups and Google Drive</h2>
+
+        <p>Automatic local backups stay in private app storage on your device and are not uploaded anywhere unless you configure an optional destination.</p>
+
+        <p>If you choose to enable Google Drive backup:</p>
+
+        <ul>
+          <li>Actua connects directly to the Google Drive API to upload encrypted backup archives to your personal Google Drive account.</li>
+          <li>Actua requests least-privilege access strictly to files it creates (<code>https://www.googleapis.com/auth/drive.file</code>). It cannot access your other Google Drive files or folders.</li>
+          <li>Backup archives are encrypted on-device before transmission using client-side authenticated AES-256-GCM encryption with a key derived from your backup password. Google cannot decrypt or view your budget contents.</li>
+          <li>OAuth tokens and encryption keys are stored using the Android Keystore in private app storage and are explicitly excluded from Android cloud backups and device-to-device transfers.</li>
+          <li>You can disconnect Google Drive and revoke access at any time from Settings → Backups.</li>
+        </ul>
+
+        <h2 id="other-on-device-data">Other on-device data</h2>
+
+        <p>Actua keeps app settings, which bank-synced transactions you haven't viewed yet, and similar display state on your device. None of it is sent anywhere.</p>
+
+        <h2 id="contact">Contact</h2>
+
+        <p>Questions about this policy can be sent to <a href="mailto:actua@azimulkabir.com">actua@azimulkabir.com</a>, or raised as an issue on <a href="https://github.com/azimul-kabir/actua/issues" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-about">
+      <div class="footer-brand"><img class="brand-mark" src="/images/actua-icon.svg" alt="" width="32" height="32"><strong>Actua</strong></div>
+      <p>Native Android app for Actual Budget.<br>Built by <a href="https://www.azimulkabir.com">Azimul Kabir</a> and the community.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/azimul-kabir/actua">
+        <svg class="icon-svg" viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a href="https://discord.gg/FhedEyP97f">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.078.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127c-.598.35-1.22.645-1.873.892a.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.662a.06.06 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419z"/></svg>
+        Discord
+      </a>
+      <a href="https://www.azimulkabir.com">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Developer website
+      </a>
+      <a href="https://actualbudget.org/">
+        <svg class="icon-svg" viewBox="0 0 30 32" width="14" height="15" fill="currentColor" aria-hidden="true"><path d="m1.138 30.423 13.8-29.309a.32.32 0 0 1 .289-.184h.605a.32.32 0 0 1 .287.18l8.903 18.29 2.791-1.074a.32.32 0 0 1 .414.184l.742 1.932a.32.32 0 0 1-.183.413l-2.574.99 3.175 6.524a.32.32 0 0 1-.147.428l-1.861.905a.32.32 0 0 1-.428-.147l-3.277-6.733-21.98 8.453a.32.32 0 0 1-.415-.189l-.152-.418a.32.32 0 0 1 .01-.245M15.56 6.152 5.85 26.774l16.634-6.398z"/><path d="m21.777 14.568.932 2.544-21.203 7.775a.32.32 0 0 1-.41-.19l-.713-1.944a.32.32 0 0 1 .19-.41z"/></svg>
+        Actual Budget
+      </a>
+      <a href="/privacy.html" aria-current="page">Privacy Policy</a>
+      <a href="https://github.com/azimul-kabir/actua/blob/main/LICENSE">MIT License</a>
+    </div>
+    <small>Actua is an independent open-source project and is not affiliated with Actual Budget.</small>
+  </footer>
+</body>
+</html>
