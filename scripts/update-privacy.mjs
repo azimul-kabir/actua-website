@@ -265,7 +265,7 @@ function buildHtml({ title, lastUpdated, html }) {
   <footer>
     <div class="footer-about">
       <div class="footer-brand"><img class="brand-mark" src="/images/actua-icon.svg" alt="" width="32" height="32"><strong>Actua</strong></div>
-      <p>Native Android app for Actual Budget.<br>Built by <a href="https://www.azimulkabir.com">Azimul Kabir</a> and the community.</p>
+      <p>Native Android app for Actual Budget.<br>Built by <a href="https://www.azimulkabir.com">Azimul Kabir Apu</a> with community feedback.</p>
     </div>
     <div class="footer-links">
       <a href="https://github.com/azimul-kabir/actua">
