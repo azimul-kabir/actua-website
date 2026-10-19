@@ -285,7 +285,7 @@ function buildHtml({ title, lastUpdated, html }) {
         Actual Budget
       </a>
       <a href="/privacy.html" aria-current="page">Privacy Policy</a>
-      <a href="https://github.com/azimul-kabir/actua/blob/main/LICENSE">MIT License</a>
+      <a href="https://github.com/azimul-kabir/actua/blob/main/LICENSE">GPLv3 License</a>
     </div>
     <small>Actua is an independent open-source project and is not affiliated with Actual Budget.</small>
   </footer>
