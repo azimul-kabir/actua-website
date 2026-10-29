@@ -48,7 +48,7 @@
           <div class="eyebrow">LEGAL &amp; PRIVACY</div>
           <h1>Privacy Policy</h1>
           <p class="legal-meta">
-            <span>Last updated: <time datetime="2026-10-13">13 October 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
+            <span>Last updated: <time datetime="2026-10-29">29 October 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
             <a href="https://github.com/azimul-kabir/actua/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
           </p>
         </header>
@@ -72,7 +72,11 @@
 
         <h2 id="imports">Imports</h2>
 
-        <p>CSV, XLSX, PDF, SMS and notification imports are processed entirely on your device to create transactions in your budget. Imported files and their contents are not uploaded anywhere except as part of the transactions they produce, which sync to your own Actual server like any other budget data.</p>
+        <p>CSV, OFX, QFX, QIF, CAMT.053, XLSX, PDF, SMS and notification imports are processed entirely on your device to create transactions in your budget. Imported files and their contents are not uploaded anywhere except as part of the transactions they produce, which sync to your own Actual server like any other budget data. A statement file shared to Actua from another app is read through the temporary access Android grants for that file and is not kept.</p>
+
+        <h2 id="exports">Exports</h2>
+
+        <p>Actua can export transactions to a CSV file. The file is written only to the location you choose in Android's file picker and is not uploaded anywhere. It is an ordinary, unencrypted file that contains your transaction details, so keep it as private as the budget itself.</p>
 
         <h2 id="bank-notifications-and-automation-apps">Bank notifications and automation apps</h2>
 
@@ -81,6 +85,10 @@
         <p>Transactions sent by Tasker or other automation apps are accepted only while you have turned that option on, only with the private token Actua shows you, and they join the same queue. Nothing in the queue is written to your budget until you approve it.</p>
 
         <p>To pre-fill accounts, Actua remembers on your device the account you chose for each card or source and an optional default account, per budget. Deleting notification data on the import screen removes the queue, those choices, the parser settings and the token.</p>
+
+        <h2 id="app-lock-and-screen-privacy">App lock and screen privacy</h2>
+
+        <p>Actua can optionally ask you to unlock it with a fingerprint, face or your device PIN, pattern or password. The check is done by Android's own biometric prompt: Actua only learns whether it succeeded and never receives, stores or transmits your biometric data or device credential. For this Actua declares Android's <code>USE_BIOMETRIC</code> (and <code>USE_FINGERPRINT</code> on older versions) permissions, which are normal permissions that show no prompt. The setting and its timeout are stored on your device only. A separate setting hides Actua's screens from the recents list and blocks screenshots and screen recording.</p>
 
         <h2 id="notifications">Notifications</h2>
 
