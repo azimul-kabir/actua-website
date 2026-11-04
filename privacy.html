@@ -132,6 +132,31 @@
           <li>You can disconnect WebDAV at any time from Settings → Backups. This makes Actua forget the address and passwords on your phone; it does not delete backups already on your server.</li>
         </ul>
 
+        <h2 id="receipt-scanning-google-play-version-only">Receipt scanning (Google Play version only)</h2>
+
+        <p>The Google Play version of Actua can read a receipt photo to suggest a payee, date and total:</p>
+
+        <ul>
+          <li>The photo is read on your phone with Google ML Kit's text recognition, using a model that is bundled with the app. The photo and the text read from it are never uploaded or sent to the Actua developers or to any service.</li>
+          <li>A photo you take is written to the app's temporary cache only while it is read, and is deleted straight after unless you choose to keep it (see below). A photo you pick from your gallery is read in place and not copied. Actua does not keep the recognized text.</li>
+          <li>Nothing is saved from a scan until you check the transaction and tap Save.</li>
+          <li>The camera app (not Actua) takes the photo, so Actua does not ask for camera permission.</li>
+          <li>Latin, Chinese, Japanese, Korean and Devanagari scripts are read. Receipts in Cyrillic, Arabic, Hebrew, Thai, Greek or Bangla may be read badly or not at all.</li>
+          <li>Receipt scanning is not in the F-Droid build, nor in <code>Actua-v&lt;version&gt;.apk</code> on GitHub Releases (the same open-source build). It is in the Google Play version and in <code>Actua-v&lt;version&gt;-full.apk</code> on GitHub Releases.</li>
+        </ul>
+
+        <h3 id="keeping-a-receipt-photo">Keeping a receipt photo</h3>
+
+        <p>After a scan you can turn on &quot;Keep the receipt photo&quot; before saving the transaction:</p>
+
+        <ul>
+          <li>The photo is stored as a compressed copy (longest side 1600 pixels) in Actua's private storage on this phone, in a folder per budget, named after the transaction. You can open it again from the transaction and remove it there.</li>
+          <li><strong>It stays on this phone only.</strong> It is never synced to an Actual server, and it is not included in local backups, Export archive, Google Drive backups or WebDAV backups: those contain only the budget's database and metadata. The link between a transaction and its photo is not stored in your budget at all. The folder is also excluded from Android backup and device-to-device transfer.</li>
+          <li>Because of that, a photo is not on another phone, and not after restoring a backup or downloading the budget again. The transactions come back without it; Actua shows nothing for a missing photo and does not report an error.</li>
+          <li>Deleting the transaction deletes its photo, and removing a budget from the device deletes that budget's photos.</li>
+          <li>The app lock protects the photo while it is inside Actua. Actua has no way to share or export a photo.</li>
+        </ul>
+
         <h2 id="other-on-device-data">Other on-device data</h2>
 
         <p>Actua keeps app settings, which bank-synced transactions you haven't viewed yet, and similar display state on your device. None of it is sent anywhere.</p>
