@@ -48,7 +48,7 @@
           <div class="eyebrow">LEGAL &amp; PRIVACY</div>
           <h1>Privacy Policy</h1>
           <p class="legal-meta">
-            <span>Last updated: <time datetime="2026-10-29">29 October 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
+            <span>Last updated: <time datetime="2026-11-05">5 November 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
             <a href="https://github.com/azimul-kabir/actua/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
           </p>
         </header>
@@ -100,7 +100,9 @@
 
         <h2 id="no-analytics-ads-or-tracking">No analytics, ads or tracking</h2>
 
-        <p>Actua does not include analytics, crash reporting, advertising or other third-party tracking SDKs, and does not collect usage data about you.</p>
+        <p>The F-Droid build and the plain <code>Actua-v&lt;version&gt;.apk</code> on GitHub Releases do not include analytics, crash reporting, advertising or other third-party tracking SDKs, and Actua does not collect usage data about you.</p>
+
+        <p>The one exception is receipt scanning in the Google Play version and in <code>Actua-v&lt;version&gt;-full.apk</code>. It uses Google ML Kit, which can send technical diagnostics to Google (see Receipt scanning below). Actua itself still shows no ads, collects no usage data and sends no analytics of its own.</p>
 
         <h2 id="diagnostics">Diagnostics</h2>
 
@@ -137,7 +139,8 @@
         <p>The Google Play version of Actua can read a receipt photo to suggest a payee, date and total:</p>
 
         <ul>
-          <li>The photo is read on your phone with Google ML Kit's text recognition, using a model that is bundled with the app. The photo and the text read from it are never uploaded or sent to the Actua developers or to any service.</li>
+          <li>The photo is read on your phone with Google ML Kit's text recognition, using a model that is bundled with the app. Actua does not upload the photo or the text read from it, and nothing is sent to the Actua developers.</li>
+          <li><strong>Google may receive technical diagnostics from ML Kit.</strong> The ML Kit library that does the reading can send technical diagnostics and usage data to Google over HTTPS: for example the phone model and Android version, Actua's package name and version, an installation identifier that is not meant to identify you, and how long a scan took or whether it failed. Google's ML Kit documentation lists this data and says it is not passed on to other companies. The data Google lists is technical metadata; it does not list receipt photos, recognized text or budget data. Actua cannot switch this reporting off. We have not confirmed that ML Kit's bundled text recognition models send it, because Google's list does not cover them, so this describes what the library can do. Google's documentation is at &lt;https://developers.google.com/ml-kit/android-data-disclosure&gt;.</li>
           <li>A photo you take is written to the app's temporary cache only while it is read, and is deleted straight after unless you choose to keep it (see below). A photo you pick from your gallery is read in place and not copied. Actua does not keep the recognized text.</li>
           <li>Nothing is saved from a scan until you check the transaction and tap Save.</li>
           <li>The camera app (not Actua) takes the photo, so Actua does not ask for camera permission.</li>
