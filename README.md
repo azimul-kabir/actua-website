@@ -14,6 +14,8 @@ This is a static website with no build step. It is deployed with Cloudflare Page
 - **Build output directory:** `/`
 - **Custom domain:** `actua.azimulkabir.com`
 
+Cloudflare Pages caches `style.css` for 4 hours, so `index.html` links it as `style.css?v=N`. Bump `N` whenever the stylesheet changes, otherwise returning visitors get new HTML with the old CSS.
+
 `404.html` is served for unknown paths, and `robots.txt` points search engines at `sitemap.xml`.
 
 ### What's new
