@@ -35,3 +35,9 @@ footer{border-top:1px solid var(--outline);max-width:1180px;margin:auto;padding:
 .legal-body code{font-size:.9em;padding:2px 6px;border-radius:6px;background:var(--surface-2);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;word-break:break-word}
 .legal-body a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
 @media(max-width:560px){.legal-container{padding:30px 18px 60px}.legal-card{padding:32px 22px;border-radius:24px}.legal-header h1{font-size:32px}.legal-body{font-size:15px}.legal-body h2{font-size:20px;margin-top:28px;padding-top:16px}}
+.video-section{padding-top:70px;padding-bottom:40px}
+.video-frame{margin:0;border-radius:28px;overflow:hidden;border:1px solid var(--outline);background:#1f0f4a;box-shadow:var(--shadow);aspect-ratio:16/9}
+.video-frame video{display:block;width:100%;height:100%;object-fit:cover}
+.video-frame p{margin:0;padding:24px;color:#fff}
+.video-frame a{text-decoration:underline}
+@media(max-width:560px){.video-section{padding-top:50px}.video-frame{border-radius:18px}}

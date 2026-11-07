@@ -22,6 +22,10 @@ The **What's new** section and the release label in the hero are generated from 
 
 The **Update What's new** workflow runs it every hour and commits any change, which Cloudflare Pages then deploys. Run it by hand from the Actions tab, or locally with `node scripts/update-whats-new.mjs`. To update straight after a release instead of within the hour, the Actua release workflow can send a `repository_dispatch` event of type `app-released` to this repository.
 
+### Promo video
+
+The "See it in motion" section plays `images/actua-promo.mp4` (1080p H.264, about 5 MB) with the poster `images/actua-promo-poster.jpg`. It is self-hosted, so the page loads no third-party player or tracking, and `preload="none"` means the video only downloads when a visitor presses play. To replace it, overwrite both files and keep their names; Cloudflare Pages allows files up to 25 MiB.
+
 The production website is:
 
 https://actua.azimulkabir.com/
