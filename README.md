@@ -26,7 +26,11 @@ The **Update What's new** workflow runs it every hour and commits any change, wh
 
 ### Promo video
 
-The "See it in motion" section plays `images/actua-promo.mp4` (1080p H.264, about 5 MB) with the poster `images/actua-promo-poster.jpg`. It is self-hosted, so the page loads no third-party player or tracking, and `preload="none"` means the video only downloads when a visitor presses play. To replace it, overwrite both files and keep their names; Cloudflare Pages allows files up to 25 MiB.
+The "See it in motion" section plays `images/actua-promo.mp4` (1080p landscape H.264, 71 seconds, about 5 MB) with the poster `images/actua-promo-poster.jpg`. It is self-hosted, so the page loads no third-party player or tracking, and `preload="none"` means the video only downloads when a visitor presses play. To replace it, overwrite both files and keep their names; Cloudflare Pages allows files up to 25 MiB.
+
+### Supporter extras
+
+The "Supporter extras" section (`#supporters`) describes the cosmetic perks of the Google Play version. Its three screenshots live in `images/screenshots/{light,dark}/` as `accent-colors.jpg`, `app-icon.jpg` and `widget-styles.jpg`; keep the copy in line with Settings → Display in the app.
 
 The production website is:
 
