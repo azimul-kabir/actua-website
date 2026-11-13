@@ -30,7 +30,7 @@ The "See it in motion" section plays `images/actua-promo.mp4` (1080p landscape H
 
 ### Supporter extras
 
-The "Supporter extras" section (`#supporters`) describes the cosmetic perks of the Google Play version. Its three screenshots live in `images/screenshots/{light,dark}/` as `accent-colors.jpg`, `app-icon.jpg` and `widget-styles.jpg`; keep the copy in line with Settings → Display in the app.
+The "Supporter extras" section (`#supporters`) describes the cosmetic perks of the Google Play version. Its four screenshots live in `images/screenshots/{light,dark}/` as `accent-colors.jpg`, `catppuccin.jpg`, `app-icon.jpg` and `widget-styles.jpg`; keep the copy in line with Settings → Supporter extras in the app. It also covers the Catppuccin themes and the greeting; only the Catppuccin themes have a screenshot.
 
 The production website is:
 
