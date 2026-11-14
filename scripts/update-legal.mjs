@@ -1,14 +1,32 @@
-// Fetches PRIVACY.md from azimul-kabir/actua, converts it to semantic HTML,
-// and generates privacy.html styled to match the Actua website.
+// Fetches the legal documents (PRIVACY.md, TERMS.md) from azimul-kabir/actua,
+// converts them to semantic HTML, and generates privacy.html and terms.html
+// styled to match the Actua website.
 //
-// Usage: node scripts/update-privacy.mjs
+// Usage: node scripts/update-legal.mjs
 //   GH_TOKEN  optional, raises the GitHub API rate limit
 
 import { readFile, writeFile, appendFile } from 'node:fs/promises';
 
 const APP_REPO = 'azimul-kabir/actua';
-const PRIVACY_PATH = 'PRIVACY.md';
-const PAGE = new URL('../privacy.html', import.meta.url);
+
+const DOCUMENTS = [
+  {
+    source: 'PRIVACY.md',
+    page: 'privacy.html',
+    title: 'Privacy Policy',
+    eyebrow: 'LEGAL &amp; PRIVACY',
+    description: 'Privacy Policy for Actua, an independent native Android client for Actual Budget. Explains how your budget data, credentials, and permissions are handled.',
+    ogDescription: 'Privacy Policy for Actua, an independent native Android client for Actual Budget. Free, open source, and privacy-focused.',
+  },
+  {
+    source: 'TERMS.md',
+    page: 'terms.html',
+    title: 'Terms of Service',
+    eyebrow: 'LEGAL',
+    description: 'Terms of Service for Actua, an independent native Android client for Actual Budget. Covers use of the app and the optional Support Actua purchases on Google Play.',
+    ogDescription: 'Terms of Service for Actua, an independent native Android client for Actual Budget. Budgeting is free; Support Actua purchases are optional.',
+  },
+];
 
 class NetworkError extends Error {}
 
@@ -28,10 +46,10 @@ async function get(url, { headers = {} } = {}) {
   return res.text();
 }
 
-async function fetchPrivacyMarkdown() {
+async function fetchMarkdown(path) {
   // 1. Try authenticated GitHub API for raw contents
   try {
-    const text = await get(`https://api.github.com/repos/${APP_REPO}/contents/${PRIVACY_PATH}`, {
+    const text = await get(`https://api.github.com/repos/${APP_REPO}/contents/${path}`, {
       headers: { Accept: 'application/vnd.github.raw+json' },
     });
     if (text) return text;
@@ -40,8 +58,8 @@ async function fetchPrivacyMarkdown() {
   }
 
   // 2. Fall back to raw.githubusercontent.com
-  const rawText = await get(`https://raw.githubusercontent.com/${APP_REPO}/main/${PRIVACY_PATH}`);
-  if (!rawText) throw new Error(`Could not find ${PRIVACY_PATH} in ${APP_REPO}`);
+  const rawText = await get(`https://raw.githubusercontent.com/${APP_REPO}/main/${path}`);
+  if (!rawText) throw new Error(`Could not find ${path} in ${APP_REPO}`);
   return rawText;
 }
 
@@ -98,9 +116,9 @@ function formatDate(isoDate) {
     .format(new Date(`${isoDate}T00:00:00Z`));
 }
 
-function parseMarkdown(md) {
+function parseMarkdown(md, defaultTitle) {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
-  let title = 'Privacy Policy';
+  let title = defaultTitle;
   let lastUpdated = '';
   const blocks = [];
   let currentLines = [];
@@ -194,7 +212,9 @@ function parseMarkdown(md) {
   return { title, lastUpdated, html: blocks.join('\n\n        ') };
 }
 
-function buildHtml({ title, lastUpdated, html }) {
+function buildHtml(doc, { title, lastUpdated, html }) {
+  const pageUrl = `https://actua.azimulkabir.com/${doc.page}`;
+  const current = (page) => (page === doc.page ? ' aria-current="page"' : '');
   const metaDate = lastUpdated ? formatDate(lastUpdated) : '';
   const dateSnippet = lastUpdated
     ? `<span>Last updated: <time datetime="${escapeHtml(lastUpdated)}">${metaDate}</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>`
@@ -206,14 +226,14 @@ function buildHtml({ title, lastUpdated, html }) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#4B18D1">
-  <meta name="description" content="Privacy Policy for Actua, an independent native Android client for Actual Budget. Explains how your budget data, credentials, and permissions are handled.">
+  <meta name="description" content="${doc.description}">
   <title>${escapeHtml(title)} · Actua</title>
-  <link rel="canonical" href="https://actua.azimulkabir.com/privacy.html">
+  <link rel="canonical" href="${pageUrl}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Actua">
   <meta property="og:title" content="${escapeHtml(title)} · Actua">
-  <meta property="og:description" content="Privacy Policy for Actua, an independent native Android client for Actual Budget. Free, open source, and privacy-focused.">
-  <meta property="og:url" content="https://actua.azimulkabir.com/privacy.html">
+  <meta property="og:description" content="${doc.ogDescription}">
+  <meta property="og:url" content="${pageUrl}">
   <meta property="og:image" content="https://actua.azimulkabir.com/images/actua-hero.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="675">
@@ -247,11 +267,11 @@ function buildHtml({ title, lastUpdated, html }) {
     <div class="legal-container">
       <article class="legal-card">
         <header class="legal-header">
-          <div class="eyebrow">LEGAL &amp; PRIVACY</div>
+          <div class="eyebrow">${doc.eyebrow}</div>
           <h1>${escapeHtml(title)}</h1>
           <p class="legal-meta">
             ${dateSnippet}
-            <a href="https://github.com/azimul-kabir/actua/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
+            <a href="https://github.com/azimul-kabir/actua/blob/main/${doc.source}" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
           </p>
         </header>
 
@@ -284,7 +304,8 @@ function buildHtml({ title, lastUpdated, html }) {
         <svg class="icon-svg" viewBox="0 0 30 32" width="14" height="15" fill="currentColor" aria-hidden="true"><path d="m1.138 30.423 13.8-29.309a.32.32 0 0 1 .289-.184h.605a.32.32 0 0 1 .287.18l8.903 18.29 2.791-1.074a.32.32 0 0 1 .414.184l.742 1.932a.32.32 0 0 1-.183.413l-2.574.99 3.175 6.524a.32.32 0 0 1-.147.428l-1.861.905a.32.32 0 0 1-.428-.147l-3.277-6.733-21.98 8.453a.32.32 0 0 1-.415-.189l-.152-.418a.32.32 0 0 1 .01-.245M15.56 6.152 5.85 26.774l16.634-6.398z"/><path d="m21.777 14.568.932 2.544-21.203 7.775a.32.32 0 0 1-.41-.19l-.713-1.944a.32.32 0 0 1 .19-.41z"/></svg>
         Actual Budget
       </a>
-      <a href="/privacy.html" aria-current="page">Privacy Policy</a>
+      <a href="/privacy.html"${current('privacy.html')}>Privacy Policy</a>
+      <a href="/terms.html"${current('terms.html')}>Terms of Service</a>
       <a href="https://github.com/azimul-kabir/actua/blob/main/LICENSE">GPLv3 License</a>
     </div>
     <small>Actua is an independent open-source project and is not affiliated with Actual Budget.</small>
@@ -294,35 +315,44 @@ function buildHtml({ title, lastUpdated, html }) {
 `;
 }
 
-async function main() {
+async function updateDocument(doc) {
   let md;
   try {
-    md = await fetchPrivacyMarkdown();
+    md = await fetchMarkdown(doc.source);
   } catch (err) {
     if (!(err instanceof NetworkError)) throw err;
-    console.log(`::warning::Could not fetch ${PRIVACY_PATH}: ${err.message}`);
-    return;
+    console.log(`::warning::Could not fetch ${doc.source}: ${err.message}`);
+    return false;
   }
 
-  const parsed = parseMarkdown(md);
-  const newHtml = buildHtml(parsed);
+  const parsed = parseMarkdown(md, doc.title);
+  const newHtml = buildHtml(doc, parsed);
+  const pageUrl = new URL(`../${doc.page}`, import.meta.url);
 
   let existing = '';
   try {
-    existing = await readFile(PAGE, 'utf8');
+    existing = await readFile(pageUrl, 'utf8');
   } catch {
     // File may not exist yet
   }
 
   const changed = newHtml !== existing;
   if (changed) {
-    await writeFile(PAGE, newHtml);
+    await writeFile(pageUrl, newHtml);
   }
 
-  console.log(`Privacy Policy (Last updated: ${parsed.lastUpdated || 'unknown'}): ${changed ? 'updated privacy.html' : 'already up to date'}`);
+  console.log(`${parsed.title} (Last updated: ${parsed.lastUpdated || 'unknown'}): ${changed ? `updated ${doc.page}` : 'already up to date'}`);
+  return changed;
+}
+
+async function main() {
+  let changed = false;
+  for (const doc of DOCUMENTS) {
+    if (await updateDocument(doc)) changed = true;
+  }
 
   if (process.env.GITHUB_OUTPUT) {
-    await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\nlast_updated=${parsed.lastUpdated}\n`);
+    await appendFile(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);
   }
 }
 
