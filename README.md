@@ -18,6 +18,10 @@ Cloudflare Pages caches `style.css` for 4 hours, so `index.html` links it as `st
 
 `404.html` is served for unknown paths, and `robots.txt` points search engines at `sitemap.xml`.
 
+### Legal pages
+
+`privacy.html` and `terms.html` are generated from `PRIVACY.md` and `TERMS.md` in the [Actua repository](https://github.com/azimul-kabir/actua) by `scripts/update-legal.mjs`. Don't edit them by hand. The **Update legal pages** workflow runs it every four hours and commits any change, and the Actua repository can send a `privacy-updated` or `app-released` `repository_dispatch` event to update straight away. Run it locally with `node scripts/update-legal.mjs`.
+
 ### What's new
 
 The **What's new** section and the release label in the hero are generated from the latest stable [Actua release](https://github.com/azimul-kabir/actua/releases). `scripts/update-whats-new.mjs` takes that release's Play Store notes (`fastlane/metadata/android/en-US/changelogs/<versionCode>.txt`), or the first bullets of its `CHANGELOG.md` section when there are none, and writes them between the `<!-- whats-new -->` and `<!-- release-pill -->` markers in `index.html`.
