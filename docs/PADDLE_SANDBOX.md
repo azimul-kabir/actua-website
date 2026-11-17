@@ -2,7 +2,8 @@
 
 Status: disabled sandbox checkout, verified fulfillment and Resend recovery code
 are implemented. Isolated Cloudflare services and real sandbox checkout are
-verified; email redemption is confirmed, while approved refund tests and Android activation remain unfinished. Public `/support` still does
+verified, including email recovery and approved-refund refresh denial. Android
+activation and the remaining checks below are unfinished. Public `/support` still does
 not sell website purchases. Core budgeting stays free. No live payment, payout
 or catalog change is part of this integration.
 
@@ -134,10 +135,16 @@ for that recovery, so it must not be used for further tests or requested in chat
 
 A full refund was requested once for the completed sandbox test purchase:
 `adj_01m7mgxa1vryg0cyeewt6z07x1`. Paddle initially returned `pending_approval`.
-Its notification delivered on the first attempt, and D1 correctly had no
-revocation while pending. The maintainer verified continued entitlement access
-with the newly recovered credential in this pending state. Approved-refund
-notification delivery, revocation and refresh/recovery denial remain to verify.
+Its initial notification delivered on the first attempt, and D1 correctly had no
+revocation while pending. The maintainer verified entitlement access with the
+newly recovered credential in this pending state. Paddle then approved the
+refund; its updated notification delivered on the first attempt with HTTP 200.
+D1 retained the purchase and added its permanent revocation. The maintainer
+checked the same recovered key again and received “No active verified purchase
+yet,” confirming denial after approval. Previously issued tokens retain their
+24-hour expiry; this verifies denial of new tokens, not forced invalidation of
+offline copies. A real post-refund email request remains untested; regression
+tests cover refund-aware recovery denial.
 
 ### Tax correction (2026-11-17)
 
@@ -164,8 +171,27 @@ its existing draft transaction; do not create another US order.
 
 After #32 merged, expired recovery challenges were replaced with a fresh
 request. Resend accepted delivery and the maintainer completed redemption and
-checked the purchase with the rotated credential. See the refund checkpoint
+checked the purchase with the rotated credential. See the completed refund checkpoint
 above; the US browser draft remains separate and unpaid.
+
+### Guided-page redesign
+
+The maintainer found the engineering test screens cumbersome. Issue #33 and
+[PR #34](https://github.com/azimul-kabir/actua-website/pull/34) replace them with
+branded, responsive steps, one primary task per step, labeled progress and
+separate language for the saved purchase key and emailed verification code.
+The same endpoint/security contracts and explicit saved-key confirmation remain.
+Commit `37eb562` is deployed to the isolated sandbox for review, not production.
+No extra payment or email was submitted to review the layout. The real recovery
+page loaded with automatic Turnstile verification; checkout showed its key-saving
+step while payment remained hidden.
+
+Validation: 34 Node regression tests and 10 separate headless Chromium journeys
+passed. Browser journeys mock external providers and cover mobile/desktop,
+light/dark checkout, saved-key gating, back/reload preservation, server-only
+confirmation, recovery success, expiry and interrupted responses. These UI tests
+are separate from the real payment/recovery/refund results above. PR #34 is not
+merged automatically.
 
 Backend service credentials remain outside browser assets.
 
