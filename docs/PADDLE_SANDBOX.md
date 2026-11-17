@@ -51,23 +51,25 @@ sandbox catalog and client token; production Pages project `actua` was unchanged
 | Resource | Sandbox configuration |
 | --- | --- |
 | Pages | `actua-sandbox`, production branch `sandbox` (isolated from public site) |
-| Current origin | `https://actua-sandbox.pages.dev` |
-| Pending custom domain | `actua-sandbox.azimulkabir.com` (DNS permission required) |
+| Current origin | `https://actua-sandbox.azimulkabir.com` |
+| Custom domain | `actua-sandbox.azimulkabir.com`, Pages validation and HTTPS active |
 | D1 | `actua-supporter-sandbox`, all three migrations applied |
 | D1 binding | `SUPPORTER_DB` on isolated project's production environment |
 | Turnstile | Managed widget, restricted to both sandbox hostnames |
 | Retry Worker | `actua-sandbox-recovery-dispatch`, no public workers.dev route |
-| Paddle destination | `ntfset_01m7mcqj52aggvkr4dgy1xqank`, inactive, usage Both |
+| Paddle destination | `ntfset_01m7mcqj52aggvkr4dgy1xqank`, active, usage Both |
 
 All seven required Pages secrets are encrypted `secret_text` bindings, including
 the notification secret and a dedicated P-256 signing key. The retry Worker has
 its matching encrypted job token. No secrets were added to the repository or
 static assets. Public values and D1 binding names/types were read back.
 
-Checkout, recovery and the overall sandbox backend flags remain **false**;
-the retry cron is **disabled** and the Paddle destination is **inactive** until
-the protected custom hostname and real-provider tests are ready. Deployed source
-is merged website commit `805beca` (PR #27).
+Checkout, recovery and the overall sandbox backend flags are **true only in the
+isolated sandbox project**. The retry cron runs every minute and the existing
+sandbox Paddle destination is active. Production project `actua` has no sandbox
+enabling flags. The backend is merged website commit `805beca` (PR #27), plus the simulator-ID
+fix `a6b0a2e` from [PR #30](https://github.com/azimul-kabir/actua-website/pull/30),
+deployed only to this sandbox for verification. Neither PR #28 nor #30 is merged.
 
 The Free-plan zone rate limit is scoped to `actua-sandbox.azimulkabir.com`:
 10 requests per 10 seconds per IP/colo, blocking for 10 seconds. It excludes
@@ -77,16 +79,38 @@ The alternate pages.dev hostname must not become a working write origin when
 the custom hostname is enabled: set the exact origin to the custom hostname.
 
 Shell HTTP requests received 403 responses; the shared browser reached the
-sandbox Function and confirmed its disabled response. This is deployment/gating
-evidence, **not** a successful checkout or email delivery test. Resend domain
-inspection from this executor also received a non-JSON 403; the sender domain's
-verified status is maintainer-provided. Sender/Reply-To match the values below.
+custom hostname over HTTPS and loaded the sandbox checkout page. The managed
+Turnstile widget passed automatically. Cloudflare subsequently reported domain
+validation and certificate status active. Resend domain inspection from this
+executor received a non-JSON 403; the sender domain's verified status is
+maintainer-provided. Sender/Reply-To match the values below.
 
-Remaining provisioning work: finish the sandbox CNAME, verify custom-domain TLS,
-change the Pages origin and Worker endpoint together, redeploy to capture the
-latest bindings, then activate the sandbox destination/cron/flags for testing.
-Keep the public project's flags unset/false. Inspect the existing named resources
-before retries; do not recreate the database, widget, signing key or destination.
+The first Wrangler upload removed dashboard plain variables while preserving
+encrypted secrets. Subsequent uploads use an explicit local Wrangler configuration
+with all public variables and D1 binding, outside the static publish directory.
+The static-only publish directory contains public site assets and `_routes.json`;
+Functions are compiled from the sibling `functions` directory. Do not deploy the
+repository root without explicit variables: it can clear runtime configuration.
+Do not put private keys, API keys or deployment state into either directory.
+
+The official Paddle simulator initially failed with HTTP 503: its signed
+`event_id` uses `ntfsimevt_…`, which the original validator rejected. PR #30 accepts
+the exact simulator ID shape, retaining raw-body HMAC, skew, SKU, ownership and
+sandbox gates. After deployment, the real simulator delivered successfully with
+HTTP 200. D1 recorded one event and zero purchases because the default simulated
+SKU is ineligible. A replay also returned 200 and the event count stayed one.
+The local regression suite now has 32 passing tests. This is signed simulator
+delivery/idempotency evidence, not an actual checkout or fulfillment test.
+
+Real checkout, signed deployed issuance, Resend delivery/recovery and approved
+refund revocation remain unverified. Automatic approval review paused downloading
+the sandbox recovery credential under the maintainer's credential restriction;
+explicit permission for that test credential's private file/sessionStorage is
+pending. This does not involve exposing backend service credentials.
+
+Inspect/reuse the existing named resources before retries. Keep the public
+project's flags unset/false; never recreate the database, widget, signing key or
+notification destination merely to resume testing.
 
 Use a dedicated sandbox Pages project/hostname and D1 database for testing. Keep
 production flags false/unset. Copy `wrangler.sandbox.example.toml` outside the
@@ -245,8 +269,7 @@ redirects are not followed. Do not enable recovery before this runner is ready.
 
 ## Remaining implementation and validation
 
-- Complete the protected custom hostname and activate the provisioned sandbox
-  services; then test real sandbox checkout, declined payments,
+- Test the provisioned sandbox services with real sandbox checkout, declined payments,
   interrupted returns, webhook replays, pending/approved/partial refunds,
   chargebacks and email/reinstall recovery. Validate the real Paddle overlay and
   Turnstile against CSP. Current browser tests mock those third-party services.
