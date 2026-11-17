@@ -2,7 +2,7 @@
 
 Status: disabled sandbox checkout, verified fulfillment and Resend recovery code
 are implemented. Isolated Cloudflare services and real sandbox checkout are
-verified; email redemption, approved refund tests and Android activation remain unfinished. Public `/support` still does
+verified; email redemption is confirmed, while approved refund tests and Android activation remain unfinished. Public `/support` still does
 not sell website purchases. Core budgeting stays free. No live payment, payout
 or catalog change is part of this integration.
 
@@ -125,12 +125,19 @@ persisted one purchase, and the browser's verified entitlement endpoint succeede
 No ownership was granted from a redirect or checkout success event. Independent
 verification of a deployed token outside the browser remains outstanding.
 
-The recovery request created one challenge and completed its delivery job after
-Resend acceptance. The replacement recovery credential is saved privately.
-Inbox receipt, single-use redemption/credential rotation and approved refund
-revocation still need completion; email-code entry was handed to the maintainer
-in the shared browser. Do not request secrets through chat or create a new order
-to resume this recovery/refund test.
+Resend recovery delivery and email redemption are now confirmed. After the
+maintainer redeemed a fresh challenge in their own browser, the original saved
+credential no longer matched the purchase's credential hash. The maintainer's
+new private credential returned “Sandbox purchase verified by the server” from
+the entitlement check. The shared-browser replacement file was not the code used
+for that recovery, so it must not be used for further tests or requested in chat.
+
+A full refund was requested once for the completed sandbox test purchase:
+`adj_01m7mgxa1vryg0cyeewt6z07x1`. Paddle initially returned `pending_approval`.
+Its notification delivered on the first attempt, and D1 correctly had no
+revocation while pending. The maintainer verified continued entitlement access
+with the newly recovered credential in this pending state. Approved-refund
+notification delivery, revocation and refresh/recovery denial remain to verify.
 
 ### Tax correction (2026-11-17)
 
@@ -148,17 +155,17 @@ test transaction/receipt remains unchanged. No live price/account setting change
 
 Paddle's real sandbox pricing preview for synthetic US test location California,
 ZIP 94105, returned USD 2.99 subtotal, USD 0.00 sales tax and USD 2.99 total for
-this downloadable-software product. This is specific to that location and SKU;
+this downloadable-software product. A second synthetic location, New York ZIP
+10001, returned USD 2.99 subtotal + USD 0.27 tax = USD 3.26 total. This is specific to that location and SKU;
 it does not imply every US state is tax-free. The separate US browser checkout
 is still a draft: automatic approval review blocked submitting the test email
 and ZIP, and explicit approval for that specific submission is pending. Reuse
 its existing draft transaction; do not create another US order.
 
-After #32 merged, the previous email challenge had expired without redemption.
-The saved purchase and replacement credential remain intact. A fresh recovery
-request completed its Resend delivery job and created one active challenge.
-Email-code entry is the next manual step in the shared browser. Approved refund
-revocation remains pending so this purchase can finish recovery first.
+After #32 merged, expired recovery challenges were replaced with a fresh
+request. Resend accepted delivery and the maintainer completed redemption and
+checked the purchase with the rotated credential. See the refund checkpoint
+above; the US browser draft remains separate and unpaid.
 
 Backend service credentials remain outside browser assets.
 
