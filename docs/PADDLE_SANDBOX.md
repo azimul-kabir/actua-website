@@ -1,6 +1,6 @@
 # Paddle sandbox foundation
 
-Status: backend foundation only; no deployed endpoint, checkout, or Android activation yet.
+Status: backend foundation only; no configured purchase service, checkout, or Android activation yet.
 Website PR #23 merged on 2026-11-17. Public `/support` remains unavailable for
 website purchases. Core budgeting remains free. This code cannot contact live
 Paddle and does not require an API key to verify webhooks.
@@ -40,7 +40,10 @@ used for purchase ownership. `_routes.json` invokes Functions only under
 
 Cloudflare account access, existing Pages configuration, plan limits and bindings
 could not be verified: no Cloudflare identity is available in this environment.
-No deployment, D1 provisioning, or webhook destination has been performed.
+No manual deployment, D1 provisioning, or webhook destination has been performed.
+The existing Git integration automatically deployed PR #25 to a Pages branch
+preview. Direct HTTP checks from this environment received Cloudflare 403 error
+1010 even for `/support`, so deployed route behavior could not be verified.
 Use a separate sandbox Pages project/domain and D1 database for first deployment.
 Keep the production site's backend disabled.
 
