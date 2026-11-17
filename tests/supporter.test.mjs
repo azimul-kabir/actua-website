@@ -50,6 +50,28 @@ test('duplicate completions and distinct events for one transaction fulfill once
   assert.equal(count(db, 'purchases'), 1); assert.equal(count(db, 'processed_events'), 2);
 });
 
+test('official simulator IDs require signatures, deduplicate and preserve refund revocation', async () => {
+  const db = database(), env = baseEnv(db), event = completed();
+  event.event_id = id('ntfsimevt');
+  const body = JSON.stringify(event);
+  assert.equal((await webhook({ request: signedRequest(body, 'wrong'), env })).status, 503);
+  assert.equal(count(db, 'processed_events'), 0);
+  for (let attempt = 0; attempt < 2; attempt++) {
+    assert.equal((await webhook({ request: signedRequest(body), env })).status, 200);
+  }
+  assert.equal(count(db, 'processed_events'), 1);
+  assert.equal(count(db, 'purchases'), 1);
+  const adjustment = refund();
+  adjustment.event_id = id('ntfsimevt', 'b');
+  assert.equal((await webhook({ request: signedRequest(JSON.stringify(adjustment)), env })).status, 200);
+  assert.equal(count(db, 'revocations'), 1);
+  for (const eventId of ['ntfsimevt_short', id('ntfsimevt', 'A'), id('ntfsim'), null]) {
+    assert.equal((await webhook({ request: signedRequest(JSON.stringify({ ...event, event_id: eventId })), env })).status, 503);
+  }
+  assert.equal((await webhook({ request: signedRequest(body), env: { ...env, PADDLE_ENVIRONMENT: 'production' } })).status, 503);
+  assert.equal(count(db, 'processed_events'), 2);
+});
+
 test('only the exact one-time catalog purchase is fulfilled', async () => {
   const changes = [
     e => e.data.items[0].price.id = id('pri'),
