@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { DatabaseSync } from 'node:sqlite';
-import { readFileSync } from 'node:fs';
+import { database } from './helpers.mjs';
 import { createHmac } from 'node:crypto';
 import { PRODUCT_ID, PRICE_ID, ISSUER, AUDIENCE, TOKEN_LIFETIME,
   verifyWebhook, fulfill, createIntent, bindTransaction, entitlement } from '../functions/_lib/supporter.js';
@@ -9,27 +8,7 @@ import { onRequest as webhook } from '../functions/api/supporter/webhook.js';
 import { onRequest as entitlementRoute } from '../functions/api/supporter/entitlement.js';
 
 const id = (prefix, char = 'a') => `${prefix}_${char.repeat(26)}`;
-function database() {
-  const sqlite = new DatabaseSync(':memory:');
-  sqlite.exec(readFileSync(new URL('../migrations/0001_supporter.sql', import.meta.url), 'utf8'));
-  const db = {
-    sqlite,
-    prepare(sql) {
-      return { bind(...args) {
-        return {
-          async first() { return sqlite.prepare(sql).get(...args) ?? null; },
-          async run() { return { meta: { changes: Number(sqlite.prepare(sql).run(...args).changes) } }; },
-        };
-      } };
-    },
-    async batch(statements) {
-      sqlite.exec('BEGIN');
-      try { for (const statement of statements) await statement.run(); sqlite.exec('COMMIT'); }
-      catch (e) { sqlite.exec('ROLLBACK'); throw e; }
-    },
-  };
-  return db;
-}
+
 function completed(eventChar = 'a') {
   return { event_id: id('evt', eventChar), event_type: 'transaction.completed', occurred_at: '2026-11-17T07:00:00Z',
     data: { id: id('txn'), customer_id: id('ctm'), status: 'completed', currency_code: 'USD', subscription_id: null,

@@ -82,4 +82,5 @@ configuration in the separate app repository.
 See [docs/PADDLE_SANDBOX.md](docs/PADDLE_SANDBOX.md) for the verified sandbox
 catalog, Pages Functions/D1 architecture, endpoint behavior and deployment gates.
 Run `npm test` with Node 24 for backend regression checks. The backend defaults
-to disabled; website checkout and Android website activation are not enabled.
+to disabled. Separately gated sandbox checkout and Resend recovery test pages are implemented;
+public website checkout and Android website activation are not enabled.
