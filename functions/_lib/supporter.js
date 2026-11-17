@@ -50,7 +50,9 @@ function id(value, prefix) {
   return typeof value === 'string' && new RegExp(`^${prefix}_[a-z0-9]{26}$`).test(value);
 }
 export async function fulfill(db, event) {
-  if (!id(event?.event_id, 'evt') || typeof event.event_type !== 'string' ||
+  // Paddle's official sandbox simulator signs ntfsimevt_ IDs, rather than evt_.
+  // This backend is sandbox-only; both shapes still require the same signature.
+  if (!(id(event?.event_id, 'evt') || id(event?.event_id, 'ntfsimevt')) || typeof event.event_type !== 'string' ||
       !Number.isFinite(Date.parse(event.occurred_at)) || !event.data) throw new Error('Malformed event');
   const d = event.data;
   const statements = [];
