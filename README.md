@@ -84,3 +84,16 @@ catalog, Pages Functions/D1 architecture, endpoint behavior and deployment gates
 Run `npm test` with Node 24 for backend regression checks. The backend defaults
 to disabled. Separately gated sandbox checkout and Resend recovery test pages are implemented;
 public website checkout and Android website activation are not enabled.
+
+### Guided sandbox purchase pages
+
+The gated checkout and email recovery pages share Actua styling and show one
+step at a time. A saved **purchase key** restores ownership; the **email code**
+is a separate, expiring verification challenge. Both stay masked, and neither is
+put in a URL. The pages retain the sandbox gates and require saving a replacement
+key before redemption. Payment success still waits for verified fulfillment.
+
+Optional mobile/desktop UI regression checks are documented in
+[tests/browser/README.md](tests/browser/README.md). These use mocked providers;
+real payment, email and refund evidence is tracked separately in
+[docs/PADDLE_SANDBOX.md](docs/PADDLE_SANDBOX.md).
