@@ -1,8 +1,8 @@
 # Actua Paddle sandbox integration
 
 Status: disabled sandbox checkout, verified fulfillment and Resend recovery code
-are implemented. Cloudflare service configuration, real sandbox end-to-end tests
-and Android website activation remain unfinished. Public `/support` still does
+are implemented. Isolated Cloudflare services and real sandbox checkout are
+verified; email redemption, approved refund tests and Android activation remain unfinished. Public `/support` still does
 not sell website purchases. Core budgeting stays free. No live payment, payout
 or catalog change is part of this integration.
 
@@ -19,7 +19,7 @@ The sandbox catalog was empty before setup on 2026-11-17. Created/read back:
 | Tax category | `standard` (downloadable software) |
 | Price | `pri_01m7m61ssadksxp8jevddmtmhf` |
 | Base amount | USD `299` cents; one-time, no trial, quantity 1 |
-| Tax mode | `location` (returned from account settings) |
+| Tax mode | `external`: USD 2.99 before applicable tax |
 | Client token | `ctkn_01m7m6vyjbh47m051qbsmzk17k` — Actua sandbox checkout |
 
 No client tokens existed when checked; the new token is `test_` scoped. Its
@@ -102,33 +102,47 @@ SKU is ineligible. A replay also returned 200 and the event count stayed one.
 The local regression suite now has 32 passing tests. This is signed simulator
 delivery/idempotency evidence, not an actual checkout or fulfillment test.
 
-Real checkout, signed deployed issuance, Resend delivery/recovery and approved
-refund revocation remain unverified. The maintainer explicitly approved private storage/sessionStorage for the
-sandbox purchase recovery credential; it was downloaded without printing it.
-An actual checkout request correctly entered `reconcile` instead of retrying
-creation after an API rejection. Paddle's transaction list remains empty.
+The maintainer approved private storage/sessionStorage for the sandbox purchase
+credential and the test customer email, fake card, Resend recovery email and
+sandbox refund. The saved codes were never printed or committed.
 
-Read-only inspection found the sandbox default checkout URL unset and only
-`actua.azimulkabir.com` approved. The sandbox default URL is now
-`https://actua-sandbox.azimulkabir.com/api/supporter/checkout`. A controlled
-operator request, made only after confirming no transactions existed, returned
-`transaction_checkout_url_domain_is_not_approved` (400); no order was created.
-The maintainer added `actua-sandbox.azimulkabir.com`; the sandbox API now
-reports it approved. Apple Pay remains unverified on that hostname; card tests
-do not require its merchant verification file.
+The first checkout attempt received a definitive 400 because the sandbox
+hostname was not approved. The operator confirmed an empty transaction list,
+configured the sandbox default checkout URL, and reopened only the latest
+rejected, unbound intent after the hostname became approved. The default URL is
+`https://actua-sandbox.azimulkabir.com/api/supporter/checkout`. Apple Pay remains
+unverified there; card tests do not require its merchant verification file.
 
-After confirming an empty transaction list and the definitive 400 rejection,
-the operator reopened only the latest rejected, unbound intent. The browser
-resumed with the saved credential and the server created and atomically bound
-one API-origin draft transaction with the exact one-time USD 299-cent SKU.
-Paddle's real overlay opened in test mode for USD 2.99. No payment has been
-submitted and no ownership has been granted.
+The browser resumed the saved credential and created/bound one API-origin
+transaction with the exact one-time USD 299-cent SKU. Real checkout exposed
+blocked Paddle inline positioning styles. [PR #32](https://github.com/azimul-kabir/actua-website/pull/32)
+allows style attributes only on the gated test page while retaining nonce-only
+script/style elements. Its sandbox deployment rendered the real modal correctly.
+All 32 regression tests passed. The documented decline card was rejected; the
+success card completed the **same** transaction. The signed completion webhook
+persisted one purchase, and the browser's verified entitlement endpoint succeeded.
+No ownership was granted from a redirect or checkout success event. Independent
+verification of a deployed token outside the browser remains outstanding.
 
-Automatic approval review then blocked sending `actua@azimulkabir.com` as the
-Paddle test customer's email without specific destination approval. Approval was
-requested for that email, Paddle's fake test card, the Resend recovery message to
-the same inbox, and refunding this sandbox transaction. The draft transaction
-and saved code remain available; do not create another order to resume.
+The recovery request created one challenge and completed its delivery job after
+Resend acceptance. The replacement recovery credential is saved privately.
+Inbox receipt, single-use redemption/credential rotation and approved refund
+revocation still need completion; email-code entry was handed to the maintainer
+in the shared browser. Do not request secrets through chat or create a new order
+to resume this recovery/refund test.
+
+### Tax correction (2026-11-17)
+
+The first completed test used `tax_mode: location`: Paddle displayed USD 2.99
+including Bangladesh VAT (USD 2.60 subtotal plus USD 0.39 tax). The maintainer
+clarified that USD 2.99 is **before tax**. Updated the existing sandbox price to
+`tax_mode: external`, keeping the same product/price IDs, USD `299` base amount
+and one-time billing. Read back the price and called Paddle's sandbox pricing
+preview for Bangladesh: USD **2.99 subtotal + 0.45 VAT = 3.44 total**. No discount
+or regional override applies. This is real API preview evidence; a new paid
+checkout under the corrected tax mode has not been run. The already completed
+test transaction/receipt remains unchanged. No live price/account setting changed.
+
 Backend service credentials remain outside browser assets.
 
 Inspect/reuse the existing named resources before retries. Keep the public
