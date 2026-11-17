@@ -382,3 +382,12 @@ rotation and refund denial with all external services mocked. Mobile-width
 Chromium checks exercised both pages, saved-code gating, reload recovery and
 waiting for verified ownership. These are not remote Cloudflare, actual Paddle,
 Resend delivery or Android compatibility tests.
+
+### Android test-app return
+
+The server-verified checkout completion section offers a fixed Android intent link
+to the sandbox test package (`com.azimulkabir.actua.test`). It opens Support Actua;
+the purchase key must still be entered in the app, which independently verifies
+its entitlement. No credential or entitlement is included in the link. Release
+Actua 2.7.0 does not handle sandbox activation. This requires the Android follow-up
+to actua#1698 and an explicit sandbox deployment; production sales remain disabled.
