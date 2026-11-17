@@ -49,3 +49,30 @@ https://actua.azimulkabir.com/
 - Discord: https://discord.gg/FhedEyP97f
 - Google Play: https://play.google.com/store/apps/details?id=com.azimulkabir.actua
 - Report an issue: https://github.com/azimul-kabir/actua/issues/new/choose
+
+### Website purchase preparation
+
+`/support`, `/refund` and `/contact` are served from their `.html` files by
+Cloudflare Pages' clean URL handling. The Supporter Extras website price is
+US$9.99 once, approved by the maintainer. Checkout is deliberately unavailable:
+Actua 2.7.0 supports Google Play purchases, not website license activation.
+The new pages reuse `style.css` and add `support.css` for page-specific styles.
+
+Before enabling website payments:
+
+- Complete Paddle seller and domain approval and create the one-time product.
+- Publish final website purchase/refund terms, trader details required for the
+  sale, and accurate payment/licensing privacy disclosures. Update app legal
+  Markdown at its source rather than hand-editing generated legal pages.
+- Implement a compatible Full APK and backend: verified Paddle webhooks,
+  idempotent fulfillment, signed entitlements, restoration and refund revocation.
+- Test sandbox checkout, interrupted return, duplicate events, refund,
+  reinstall/device recovery and existing Play supporter upgrades.
+- Add Paddle Checkout only after those dependencies are ready. Keep API keys and
+  webhook secrets on the backend; a checkout redirect must not grant access.
+
+The legal generator preserves Support, Refund and Contact footer links. The app
+repository's `.github/FUNDING.yml` can point to
+`https://actua.azimulkabir.com/support` after these pages are deployed. This
+website change does not alter app flavors, existing purchase rights or funding
+configuration in the separate app repository.
