@@ -116,7 +116,8 @@ unverified there; card tests do not require its merchant verification file.
 The browser resumed the saved credential and created/bound one API-origin
 transaction with the exact one-time USD 299-cent SKU. Real checkout exposed
 blocked Paddle inline positioning styles. [PR #32](https://github.com/azimul-kabir/actua-website/pull/32)
-allows style attributes only on the gated test page while retaining nonce-only
+is merged as `a119a0baf1722bf2209ed3aa9e0f79aefbc8768a`. It allows
+style attributes only on the gated test page while retaining nonce-only
 script/style elements. Its sandbox deployment rendered the real modal correctly.
 All 32 regression tests passed. The documented decline card was rejected; the
 success card completed the **same** transaction. The signed completion webhook
@@ -142,6 +143,22 @@ preview for Bangladesh: USD **2.99 subtotal + 0.45 VAT = 3.44 total**. No discou
 or regional override applies. This is real API preview evidence; a new paid
 checkout under the corrected tax mode has not been run. The already completed
 test transaction/receipt remains unchanged. No live price/account setting changed.
+
+### US test and recovery continuation
+
+Paddle's real sandbox pricing preview for synthetic US test location California,
+ZIP 94105, returned USD 2.99 subtotal, USD 0.00 sales tax and USD 2.99 total for
+this downloadable-software product. This is specific to that location and SKU;
+it does not imply every US state is tax-free. The separate US browser checkout
+is still a draft: automatic approval review blocked submitting the test email
+and ZIP, and explicit approval for that specific submission is pending. Reuse
+its existing draft transaction; do not create another US order.
+
+After #32 merged, the previous email challenge had expired without redemption.
+The saved purchase and replacement credential remain intact. A fresh recovery
+request completed its Resend delivery job and created one active challenge.
+Email-code entry is the next manual step in the shared browser. Approved refund
+revocation remains pending so this purchase can finish recovery first.
 
 Backend service credentials remain outside browser assets.
 
