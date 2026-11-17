@@ -190,8 +190,8 @@ Validation: 34 Node regression tests and 10 separate headless Chromium journeys
 passed. Browser journeys mock external providers and cover mobile/desktop,
 light/dark checkout, saved-key gating, back/reload preservation, server-only
 confirmation, recovery success, expiry and interrupted responses. These UI tests
-are separate from the real payment/recovery/refund results above. PR #34 is not
-merged automatically.
+are separate from the real payment/recovery/refund results above. PR #34 was merged by the maintainer as
+`74269b19016897482bbe3f3904ba2a2dfd1f571f`; no automatic merge was performed.
 
 Backend service credentials remain outside browser assets.
 
