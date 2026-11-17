@@ -76,3 +76,10 @@ repository's `.github/FUNDING.yml` can point to
 `https://actua.azimulkabir.com/support` after these pages are deployed. This
 website change does not alter app flavors, existing purchase rights or funding
 configuration in the separate app repository.
+
+### Paddle sandbox backend foundation
+
+See [docs/PADDLE_SANDBOX.md](docs/PADDLE_SANDBOX.md) for the verified sandbox
+catalog, Pages Functions/D1 architecture, endpoint behavior and deployment gates.
+Run `npm test` with Node 24 for backend regression checks. The backend defaults
+to disabled; website checkout and Android website activation are not enabled.
