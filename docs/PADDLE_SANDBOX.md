@@ -391,3 +391,13 @@ the purchase key must still be entered in the app, which independently verifies
 its entitlement. No credential or entitlement is included in the link. Release
 Actua 2.7.0 does not handle sandbox activation. This requires the Android follow-up
 to actua#1698 and an explicit sandbox deployment; production sales remain disabled.
+
+Sandbox return-link deployment: website commit `94cd190` (PR #36) was uploaded
+with Wrangler 4.164.0 to isolated deployment `c457ab43.actua-sandbox.pages.dev`.
+Production sandbox configuration was compared before/after: all 9 public
+variables, 7 encrypted secret bindings and the D1 binding were preserved. The
+public production project was not deployed. Android resolves the fixed return
+URI to the updated test app's supporter page; shell GETs to the custom sandbox
+hostname still receive 403, so a fresh browser completion-page check remains
+necessary. Refresh an existing purchased tab and check the saved purchase again
+rather than creating another transaction.
