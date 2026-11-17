@@ -230,6 +230,10 @@ test('sandbox page is gated, noncacheable, unindexed and contains only the publi
   assert.equal(response.headers.get('Cache-Control'), 'no-store');
   assert.equal(response.headers.get('X-Robots-Tag'), 'noindex, nofollow');
   assert.ok(response.headers.get('Content-Security-Policy').includes("frame-ancestors 'none'"));
+  const policy = response.headers.get('Content-Security-Policy');
+  assert.ok(policy.includes("style-src-attr 'unsafe-inline'"));
+  assert.match(policy, /style-src 'nonce-[a-z0-9]+';/);
+  assert.ok(!policy.split(';').find(part => part.trim().startsWith('script-src ')).includes('unsafe-inline'));
   assert.ok(html.includes("Paddle.Environment.set('sandbox')"));
   assert.ok(html.includes('history.replaceState'));
   assert.ok(html.includes('test_synthetic'));

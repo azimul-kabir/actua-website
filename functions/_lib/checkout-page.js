@@ -99,7 +99,9 @@ buy.addEventListener('click', async () => {
       'Referrer-Policy': 'no-referrer',
       'X-Content-Type-Options': 'nosniff',
       'X-Robots-Tag': 'noindex, nofollow',
-      'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}' https://cdn.paddle.com https://challenges.cloudflare.com; style-src 'nonce-${nonce}'; connect-src 'self' https://*.paddle.com https://challenges.cloudflare.com; frame-src https://*.paddle.com https://challenges.cloudflare.com; img-src 'self' data: https://*.paddle.com; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`,
+      // Paddle positions its overlay using style attributes. Keep script and
+      // style elements nonce-protected; allow attributes only on this test page.
+      'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}' https://cdn.paddle.com https://challenges.cloudflare.com; style-src 'nonce-${nonce}'; style-src-attr 'unsafe-inline'; connect-src 'self' https://*.paddle.com https://challenges.cloudflare.com; frame-src https://*.paddle.com https://challenges.cloudflare.com; img-src 'self' data: https://*.paddle.com; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`,
     },
   });
 }
