@@ -113,10 +113,23 @@ Read-only inspection found the sandbox default checkout URL unset and only
 `https://actua-sandbox.azimulkabir.com/api/supporter/checkout`. A controlled
 operator request, made only after confirming no transactions existed, returned
 `transaction_checkout_url_domain_is_not_approved` (400); no order was created.
-The maintainer must add `actua-sandbox.azimulkabir.com` in **sandbox** Website
-approval before further checkout tests. Preserve the saved code and existing
-intent; reconcile the known rejected attempt without blindly retrying an
-ambiguous transaction. Backend service credentials remain outside browser assets.
+The maintainer added `actua-sandbox.azimulkabir.com`; the sandbox API now
+reports it approved. Apple Pay remains unverified on that hostname; card tests
+do not require its merchant verification file.
+
+After confirming an empty transaction list and the definitive 400 rejection,
+the operator reopened only the latest rejected, unbound intent. The browser
+resumed with the saved credential and the server created and atomically bound
+one API-origin draft transaction with the exact one-time USD 299-cent SKU.
+Paddle's real overlay opened in test mode for USD 2.99. No payment has been
+submitted and no ownership has been granted.
+
+Automatic approval review then blocked sending `actua@azimulkabir.com` as the
+Paddle test customer's email without specific destination approval. Approval was
+requested for that email, Paddle's fake test card, the Resend recovery message to
+the same inbox, and refunding this sandbox transaction. The draft transaction
+and saved code remain available; do not create another order to resume.
+Backend service credentials remain outside browser assets.
 
 Inspect/reuse the existing named resources before retries. Keep the public
 project's flags unset/false; never recreate the database, widget, signing key or
