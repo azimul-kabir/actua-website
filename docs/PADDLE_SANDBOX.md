@@ -42,12 +42,51 @@ as publish directory, `main` for production and `actua.azimulkabir.com` as its
 custom domain. Pages Functions with a dedicated D1 database fit that deployment.
 `_routes.json` invokes Functions only under `/api/supporter/*`.
 
-Cloudflare identity, existing bindings and plan limits could not be inspected
-from this environment. No D1 database, encrypted Pages secrets, notification
-destination, scheduled Worker or Resend service has been provisioned. The site's
-existing Git integration automatically builds branch previews. Earlier direct
-preview HTTP checks received Cloudflare 403 error 1010 on static and API routes,
-so remote route behavior was not verified.
+### Provisioning checkpoint (2026-11-17)
+
+Inspected existing Cloudflare Pages projects, D1 databases, Workers, Turnstile
+widgets and Paddle notification destinations before creation. Reused the existing
+sandbox catalog and client token; production Pages project `actua` was unchanged.
+
+| Resource | Sandbox configuration |
+| --- | --- |
+| Pages | `actua-sandbox`, production branch `sandbox` (isolated from public site) |
+| Current origin | `https://actua-sandbox.pages.dev` |
+| Pending custom domain | `actua-sandbox.azimulkabir.com` (DNS permission required) |
+| D1 | `actua-supporter-sandbox`, all three migrations applied |
+| D1 binding | `SUPPORTER_DB` on isolated project's production environment |
+| Turnstile | Managed widget, restricted to both sandbox hostnames |
+| Retry Worker | `actua-sandbox-recovery-dispatch`, no public workers.dev route |
+| Paddle destination | `ntfset_01m7mcqj52aggvkr4dgy1xqank`, inactive, usage Both |
+
+All seven required Pages secrets are encrypted `secret_text` bindings, including
+the notification secret and a dedicated P-256 signing key. The retry Worker has
+its matching encrypted job token. No secrets were added to the repository or
+static assets. Public values and D1 binding names/types were read back.
+
+Checkout, recovery and the overall sandbox backend flags remain **false**;
+the retry cron is **disabled** and the Paddle destination is **inactive** until
+the protected custom hostname and real-provider tests are ready. Deployed source
+is merged website commit `805beca` (PR #27).
+
+The Free-plan zone rate limit is scoped to `actua-sandbox.azimulkabir.com`:
+10 requests per 10 seconds per IP/colo, blocking for 10 seconds. It excludes
+`/api/supporter/webhook` (signature protected) and `/api/supporter/recovery/process`
+(job-token protected). Existing zone rules were inspected before creation.
+The alternate pages.dev hostname must not become a working write origin when
+the custom hostname is enabled: set the exact origin to the custom hostname.
+
+Shell HTTP requests received 403 responses; the shared browser reached the
+sandbox Function and confirmed its disabled response. This is deployment/gating
+evidence, **not** a successful checkout or email delivery test. Resend domain
+inspection from this executor also received a non-JSON 403; the sender domain's
+verified status is maintainer-provided. Sender/Reply-To match the values below.
+
+Remaining provisioning work: finish the sandbox CNAME, verify custom-domain TLS,
+change the Pages origin and Worker endpoint together, redeploy to capture the
+latest bindings, then activate the sandbox destination/cron/flags for testing.
+Keep the public project's flags unset/false. Inspect the existing named resources
+before retries; do not recreate the database, widget, signing key or destination.
 
 Use a dedicated sandbox Pages project/hostname and D1 database for testing. Keep
 production flags false/unset. Copy `wrangler.sandbox.example.toml` outside the
@@ -90,7 +129,7 @@ After a reachable webhook endpoint exists, inspect/reuse a suitable sandbox
 notification destination. Subscribe to `transaction.completed`,
 `adjustment.created` and `adjustment.updated`, usage type Both for testing.
 Read/store its secret directly into encrypted configuration without printing the
-notification-settings response. No destination has been created yet.
+notification-settings response. The existing destination above must be reused; do not create a duplicate.
 
 Before exposing a test preview, add Cloudflare IP request limits. Turnstile and
 application limits do not replace edge protection. Never capture authorization
@@ -166,7 +205,7 @@ Use `Actua <support@notify.azimulkabir.com>` as sender and the existing receivin
 inbox `actua@azimulkabir.com` as Reply-To. Do not replace unrelated mail DNS records.
 The implementation follows Resend's [send API](https://resend.com/docs/api-reference/emails/send-email)
 and [idempotency](https://resend.com/docs/dashboard/emails/idempotency-keys) contract.
-No actual email has been sent in development; provider calls in tests are mocked.
+No actual recovery email has been verified yet; provider calls in tests are mocked.
 
 `GET /api/supporter/recovery` supplies a gated recovery page. Requests POST an
 email plus a Turnstile proof with action `actua-recovery`. After validation,
@@ -206,8 +245,8 @@ redirects are not followed. Do not enable recovery before this runner is ready.
 
 ## Remaining implementation and validation
 
-- Provision Cloudflare bindings/secrets/Turnstile, Resend DNS/key and a sandbox
-  notification destination; then test real sandbox checkout, declined payments,
+- Complete the protected custom hostname and activate the provisioned sandbox
+  services; then test real sandbox checkout, declined payments,
   interrupted returns, webhook replays, pending/approved/partial refunds,
   chargebacks and email/reinstall recovery. Validate the real Paddle overlay and
   Turnstile against CSP. Current browser tests mock those third-party services.
