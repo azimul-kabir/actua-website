@@ -54,7 +54,7 @@ https://actua.azimulkabir.com/
 
 `/support`, `/refund` and `/contact` are served from their `.html` files by
 Cloudflare Pages' clean URL handling. The Supporter Extras website price is
-US$9.99 once, approved by the maintainer. Checkout is deliberately unavailable:
+US$2.99 once, approved by the maintainer. Checkout is deliberately unavailable:
 Actua 2.7.0 supports Google Play purchases, not website license activation.
 The new pages reuse `style.css` and add `support.css` for page-specific styles.
 
