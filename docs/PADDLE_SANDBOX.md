@@ -1,8 +1,9 @@
 # Actua Paddle sandbox integration
 
 Status: disabled sandbox checkout, verified fulfillment and Resend recovery code
-are implemented. Cloudflare service configuration, real sandbox end-to-end tests
-and Android website activation remain unfinished. Public `/support` still does
+are implemented. Isolated Cloudflare services and real sandbox checkout are
+verified, including email recovery and approved-refund refresh denial. Android
+activation and the remaining checks below are unfinished. Public `/support` still does
 not sell website purchases. Core budgeting stays free. No live payment, payout
 or catalog change is part of this integration.
 
@@ -19,7 +20,7 @@ The sandbox catalog was empty before setup on 2026-11-17. Created/read back:
 | Tax category | `standard` (downloadable software) |
 | Price | `pri_01m7m61ssadksxp8jevddmtmhf` |
 | Base amount | USD `299` cents; one-time, no trial, quantity 1 |
-| Tax mode | `location` (returned from account settings) |
+| Tax mode | `external`: USD 2.99 before applicable tax |
 | Client token | `ctkn_01m7m6vyjbh47m051qbsmzk17k` — Actua sandbox checkout |
 
 No client tokens existed when checked; the new token is `test_` scoped. Its
@@ -42,12 +43,161 @@ as publish directory, `main` for production and `actua.azimulkabir.com` as its
 custom domain. Pages Functions with a dedicated D1 database fit that deployment.
 `_routes.json` invokes Functions only under `/api/supporter/*`.
 
-Cloudflare identity, existing bindings and plan limits could not be inspected
-from this environment. No D1 database, encrypted Pages secrets, notification
-destination, scheduled Worker or Resend service has been provisioned. The site's
-existing Git integration automatically builds branch previews. Earlier direct
-preview HTTP checks received Cloudflare 403 error 1010 on static and API routes,
-so remote route behavior was not verified.
+### Provisioning checkpoint (2026-11-17)
+
+Inspected existing Cloudflare Pages projects, D1 databases, Workers, Turnstile
+widgets and Paddle notification destinations before creation. Reused the existing
+sandbox catalog and client token; production Pages project `actua` was unchanged.
+
+| Resource | Sandbox configuration |
+| --- | --- |
+| Pages | `actua-sandbox`, production branch `sandbox` (isolated from public site) |
+| Current origin | `https://actua-sandbox.azimulkabir.com` |
+| Custom domain | `actua-sandbox.azimulkabir.com`, Pages validation and HTTPS active |
+| D1 | `actua-supporter-sandbox`, all three migrations applied |
+| D1 binding | `SUPPORTER_DB` on isolated project's production environment |
+| Turnstile | Managed widget, restricted to both sandbox hostnames |
+| Retry Worker | `actua-sandbox-recovery-dispatch`, no public workers.dev route |
+| Paddle destination | `ntfset_01m7mcqj52aggvkr4dgy1xqank`, active, usage Both |
+
+All seven required Pages secrets are encrypted `secret_text` bindings, including
+the notification secret and a dedicated P-256 signing key. The retry Worker has
+its matching encrypted job token. No secrets were added to the repository or
+static assets. Public values and D1 binding names/types were read back.
+
+Checkout, recovery and the overall sandbox backend flags are **true only in the
+isolated sandbox project**. The retry cron runs every minute and the existing
+sandbox Paddle destination is active. Production project `actua` has no sandbox
+enabling flags. The backend is merged website commit `805beca` (PR #27), plus the simulator-ID
+fix `a6b0a2e` from [PR #30](https://github.com/azimul-kabir/actua-website/pull/30),
+deployed only to this sandbox for verification. PR #30 is merged as `f8274085ba704bd19f06e028cbac92d9b942caf9`; PR #28 remains open.
+
+The Free-plan zone rate limit is scoped to `actua-sandbox.azimulkabir.com`:
+10 requests per 10 seconds per IP/colo, blocking for 10 seconds. It excludes
+`/api/supporter/webhook` (signature protected) and `/api/supporter/recovery/process`
+(job-token protected). Existing zone rules were inspected before creation.
+The alternate pages.dev hostname must not become a working write origin when
+the custom hostname is enabled: set the exact origin to the custom hostname.
+
+Shell HTTP requests received 403 responses; the shared browser reached the
+custom hostname over HTTPS and loaded the sandbox checkout page. The managed
+Turnstile widget passed automatically. Cloudflare subsequently reported domain
+validation and certificate status active. Resend domain inspection from this
+executor received a non-JSON 403; the sender domain's verified status is
+maintainer-provided. Sender/Reply-To match the values below.
+
+The first Wrangler upload removed dashboard plain variables while preserving
+encrypted secrets. Subsequent uploads use an explicit local Wrangler configuration
+with all public variables and D1 binding, outside the static publish directory.
+The static-only publish directory contains public site assets and `_routes.json`;
+Functions are compiled from the sibling `functions` directory. Do not deploy the
+repository root without explicit variables: it can clear runtime configuration.
+Do not put private keys, API keys or deployment state into either directory.
+
+The official Paddle simulator initially failed with HTTP 503: its signed
+`event_id` uses `ntfsimevt_…`, which the original validator rejected. PR #30 accepts
+the exact simulator ID shape, retaining raw-body HMAC, skew, SKU, ownership and
+sandbox gates. After deployment, the real simulator delivered successfully with
+HTTP 200. D1 recorded one event and zero purchases because the default simulated
+SKU is ineligible. A replay also returned 200 and the event count stayed one.
+The local regression suite now has 32 passing tests. This is signed simulator
+delivery/idempotency evidence, not an actual checkout or fulfillment test.
+
+The maintainer approved private storage/sessionStorage for the sandbox purchase
+credential and the test customer email, fake card, Resend recovery email and
+sandbox refund. The saved codes were never printed or committed.
+
+The first checkout attempt received a definitive 400 because the sandbox
+hostname was not approved. The operator confirmed an empty transaction list,
+configured the sandbox default checkout URL, and reopened only the latest
+rejected, unbound intent after the hostname became approved. The default URL is
+`https://actua-sandbox.azimulkabir.com/api/supporter/checkout`. Apple Pay remains
+unverified there; card tests do not require its merchant verification file.
+
+The browser resumed the saved credential and created/bound one API-origin
+transaction with the exact one-time USD 299-cent SKU. Real checkout exposed
+blocked Paddle inline positioning styles. [PR #32](https://github.com/azimul-kabir/actua-website/pull/32)
+is merged as `a119a0baf1722bf2209ed3aa9e0f79aefbc8768a`. It allows
+style attributes only on the gated test page while retaining nonce-only
+script/style elements. Its sandbox deployment rendered the real modal correctly.
+All 32 regression tests passed. The documented decline card was rejected; the
+success card completed the **same** transaction. The signed completion webhook
+persisted one purchase, and the browser's verified entitlement endpoint succeeded.
+No ownership was granted from a redirect or checkout success event. Independent
+verification of a deployed token outside the browser remains outstanding.
+
+Resend recovery delivery and email redemption are now confirmed. After the
+maintainer redeemed a fresh challenge in their own browser, the original saved
+credential no longer matched the purchase's credential hash. The maintainer's
+new private credential returned “Sandbox purchase verified by the server” from
+the entitlement check. The shared-browser replacement file was not the code used
+for that recovery, so it must not be used for further tests or requested in chat.
+
+A full refund was requested once for the completed sandbox test purchase:
+`adj_01m7mgxa1vryg0cyeewt6z07x1`. Paddle initially returned `pending_approval`.
+Its initial notification delivered on the first attempt, and D1 correctly had no
+revocation while pending. The maintainer verified entitlement access with the
+newly recovered credential in this pending state. Paddle then approved the
+refund; its updated notification delivered on the first attempt with HTTP 200.
+D1 retained the purchase and added its permanent revocation. The maintainer
+checked the same recovered key again and received “No active verified purchase
+yet,” confirming denial after approval. Previously issued tokens retain their
+24-hour expiry; this verifies denial of new tokens, not forced invalidation of
+offline copies. A real post-refund email request remains untested; regression
+tests cover refund-aware recovery denial.
+
+### Tax correction (2026-11-17)
+
+The first completed test used `tax_mode: location`: Paddle displayed USD 2.99
+including Bangladesh VAT (USD 2.60 subtotal plus USD 0.39 tax). The maintainer
+clarified that USD 2.99 is **before tax**. Updated the existing sandbox price to
+`tax_mode: external`, keeping the same product/price IDs, USD `299` base amount
+and one-time billing. Read back the price and called Paddle's sandbox pricing
+preview for Bangladesh: USD **2.99 subtotal + 0.45 VAT = 3.44 total**. No discount
+or regional override applies. This is real API preview evidence; a new paid
+checkout under the corrected tax mode has not been run. The already completed
+test transaction/receipt remains unchanged. No live price/account setting changed.
+
+### US test and recovery continuation
+
+Paddle's real sandbox pricing preview for synthetic US test location California,
+ZIP 94105, returned USD 2.99 subtotal, USD 0.00 sales tax and USD 2.99 total for
+this downloadable-software product. A second synthetic location, New York ZIP
+10001, returned USD 2.99 subtotal + USD 0.27 tax = USD 3.26 total. This is specific to that location and SKU;
+it does not imply every US state is tax-free. The separate US browser checkout
+is still a draft: automatic approval review blocked submitting the test email
+and ZIP, and explicit approval for that specific submission is pending. Reuse
+its existing draft transaction; do not create another US order.
+
+After #32 merged, expired recovery challenges were replaced with a fresh
+request. Resend accepted delivery and the maintainer completed redemption and
+checked the purchase with the rotated credential. See the completed refund checkpoint
+above; the US browser draft remains separate and unpaid.
+
+### Guided-page redesign
+
+The maintainer found the engineering test screens cumbersome. Issue #33 and
+[PR #34](https://github.com/azimul-kabir/actua-website/pull/34) replace them with
+branded, responsive steps, one primary task per step, labeled progress and
+separate language for the saved purchase key and emailed verification code.
+The same endpoint/security contracts and explicit saved-key confirmation remain.
+Commit `37eb562` is deployed to the isolated sandbox for review, not production.
+No extra payment or email was submitted to review the layout. The real recovery
+page loaded with automatic Turnstile verification; checkout showed its key-saving
+step while payment remained hidden.
+
+Validation: 34 Node regression tests and 10 separate headless Chromium journeys
+passed. Browser journeys mock external providers and cover mobile/desktop,
+light/dark checkout, saved-key gating, back/reload preservation, server-only
+confirmation, recovery success, expiry and interrupted responses. These UI tests
+are separate from the real payment/recovery/refund results above. PR #34 was merged by the maintainer as
+`74269b19016897482bbe3f3904ba2a2dfd1f571f`; no automatic merge was performed.
+
+Backend service credentials remain outside browser assets.
+
+Inspect/reuse the existing named resources before retries. Keep the public
+project's flags unset/false; never recreate the database, widget, signing key or
+notification destination merely to resume testing.
 
 Use a dedicated sandbox Pages project/hostname and D1 database for testing. Keep
 production flags false/unset. Copy `wrangler.sandbox.example.toml` outside the
@@ -90,7 +240,7 @@ After a reachable webhook endpoint exists, inspect/reuse a suitable sandbox
 notification destination. Subscribe to `transaction.completed`,
 `adjustment.created` and `adjustment.updated`, usage type Both for testing.
 Read/store its secret directly into encrypted configuration without printing the
-notification-settings response. No destination has been created yet.
+notification-settings response. The existing destination above must be reused; do not create a duplicate.
 
 Before exposing a test preview, add Cloudflare IP request limits. Turnstile and
 application limits do not replace edge protection. Never capture authorization
@@ -166,7 +316,7 @@ Use `Actua <support@notify.azimulkabir.com>` as sender and the existing receivin
 inbox `actua@azimulkabir.com` as Reply-To. Do not replace unrelated mail DNS records.
 The implementation follows Resend's [send API](https://resend.com/docs/api-reference/emails/send-email)
 and [idempotency](https://resend.com/docs/dashboard/emails/idempotency-keys) contract.
-No actual email has been sent in development; provider calls in tests are mocked.
+No actual recovery email has been verified yet; provider calls in tests are mocked.
 
 `GET /api/supporter/recovery` supplies a gated recovery page. Requests POST an
 email plus a Turnstile proof with action `actua-recovery`. After validation,
@@ -206,8 +356,7 @@ redirects are not followed. Do not enable recovery before this runner is ready.
 
 ## Remaining implementation and validation
 
-- Provision Cloudflare bindings/secrets/Turnstile, Resend DNS/key and a sandbox
-  notification destination; then test real sandbox checkout, declined payments,
+- Test the provisioned sandbox services with real sandbox checkout, declined payments,
   interrupted returns, webhook replays, pending/approved/partial refunds,
   chargebacks and email/reinstall recovery. Validate the real Paddle overlay and
   Turnstile against CSP. Current browser tests mock those third-party services.
