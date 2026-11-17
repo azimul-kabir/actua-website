@@ -1,0 +1,16 @@
+# Copy to work/wrangler.toml OUTSIDE the static publish directory, then replace
+# database_id. This is a template, not active Pages deployment configuration.
+name = "actua-website-sandbox"
+compatibility_date = "2026-11-17"
+pages_build_output_dir = "../actua-website"
+
+[vars]
+PADDLE_ENVIRONMENT = "sandbox"
+SUPPORTER_SANDBOX_ENABLED = "false"
+SUPPORTER_SIGNING_KEY_ID = "sandbox-1"
+
+[[d1_databases]]
+binding = "SUPPORTER_DB"
+database_name = "actua-supporter-sandbox"
+database_id = "REPLACE_WITH_SANDBOX_D1_ID"
+migrations_dir = "../actua-website/migrations"
