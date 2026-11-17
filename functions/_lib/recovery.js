@@ -342,9 +342,9 @@ export async function redeemRecovery(request, env, now = Date.now()) {
       .prepare(
         `UPDATE recovery_challenges SET consumed_at=?,redemption_id=? WHERE token_hash=?
       AND consumed_at IS NULL AND expires_at>? AND EXISTS
-      (SELECT 1 FROM purchase_intents i ${active} AND i.id=recovery_challenges.intent_id)`,
+      (SELECT 1 FROM purchase_intents i ${active} AND i.id=recovery_challenges.intent_id AND i.recovery_hash<>?)`,
       )
-      .bind(seconds, redemption, hash, seconds),
+      .bind(seconds, redemption, hash, seconds, newHash),
     db
       .prepare(
         `UPDATE purchase_intents SET recovery_hash=? WHERE id=

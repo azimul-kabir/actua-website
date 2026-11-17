@@ -359,3 +359,18 @@ test('provider Retry-After delays retries without changing the delivery idempote
   assert.equal(f.sent.length, 2);
   assert.deepEqual(f.sent[0], f.sent[1]);
 });
+
+test('email redemption requires a replacement different from the current credential', async () => {
+  const env = environment();
+  await seed(env);
+  const f = fake();
+  await requestRecovery(request(), env, f.fetch);
+  await processRecovery(env, f.fetch);
+  assert.equal((await redeemRecovery(redeem(challenge(f), oldCode), env)).status, 403);
+  assert.equal(
+    env.SUPPORTER_DB.sqlite.prepare('SELECT consumed_at FROM recovery_challenges').get()
+      .consumed_at,
+    null,
+  );
+  assert.equal((await redeemRecovery(redeem(challenge(f)), env)).status, 200);
+});
