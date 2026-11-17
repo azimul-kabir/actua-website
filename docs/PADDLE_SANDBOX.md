@@ -69,7 +69,7 @@ isolated sandbox project**. The retry cron runs every minute and the existing
 sandbox Paddle destination is active. Production project `actua` has no sandbox
 enabling flags. The backend is merged website commit `805beca` (PR #27), plus the simulator-ID
 fix `a6b0a2e` from [PR #30](https://github.com/azimul-kabir/actua-website/pull/30),
-deployed only to this sandbox for verification. Neither PR #28 nor #30 is merged.
+deployed only to this sandbox for verification. PR #30 is merged as `f8274085ba704bd19f06e028cbac92d9b942caf9`; PR #28 remains open.
 
 The Free-plan zone rate limit is scoped to `actua-sandbox.azimulkabir.com`:
 10 requests per 10 seconds per IP/colo, blocking for 10 seconds. It excludes
@@ -103,10 +103,20 @@ The local regression suite now has 32 passing tests. This is signed simulator
 delivery/idempotency evidence, not an actual checkout or fulfillment test.
 
 Real checkout, signed deployed issuance, Resend delivery/recovery and approved
-refund revocation remain unverified. Automatic approval review paused downloading
-the sandbox recovery credential under the maintainer's credential restriction;
-explicit permission for that test credential's private file/sessionStorage is
-pending. This does not involve exposing backend service credentials.
+refund revocation remain unverified. The maintainer explicitly approved private storage/sessionStorage for the
+sandbox purchase recovery credential; it was downloaded without printing it.
+An actual checkout request correctly entered `reconcile` instead of retrying
+creation after an API rejection. Paddle's transaction list remains empty.
+
+Read-only inspection found the sandbox default checkout URL unset and only
+`actua.azimulkabir.com` approved. The sandbox default URL is now
+`https://actua-sandbox.azimulkabir.com/api/supporter/checkout`. A controlled
+operator request, made only after confirming no transactions existed, returned
+`transaction_checkout_url_domain_is_not_approved` (400); no order was created.
+The maintainer must add `actua-sandbox.azimulkabir.com` in **sandbox** Website
+approval before further checkout tests. Preserve the saved code and existing
+intent; reconcile the known rejected attempt without blindly retrying an
+ambiguous transaction. Backend service credentials remain outside browser assets.
 
 Inspect/reuse the existing named resources before retries. Keep the public
 project's flags unset/false; never recreate the database, widget, signing key or
