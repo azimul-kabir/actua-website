@@ -25,3 +25,13 @@ for (const [name, render] of [['checkout', checkoutPage], ['recovery', recoveryP
     else assert.ok(!policy.includes('unsafe-inline'));
   });
 }
+
+test('verified checkout offers a fixed credential-free return to the sandbox test app', async () => {
+  const html = await checkoutPage(env).text();
+  const done = html.match(/<section id="done-step" hidden>([\s\S]*?)<\/section>/)[1];
+  assert.ok(done.includes('id="return-to-app"'));
+  assert.ok(done.includes('href="intent://return#Intent;scheme=actua-supporter-sandbox;package=com.azimulkabir.actua.test;end"'));
+  assert.ok(done.includes('purchase key you saved'));
+  assert.ok(!done.includes('recovery.value'));
+  assert.ok(!done.includes('result.entitlement'));
+});
