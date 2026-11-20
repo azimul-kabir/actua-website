@@ -93,6 +93,9 @@ The static-only publish directory contains public site assets and `_routes.json`
 Functions are compiled from the sibling `functions` directory. Do not deploy the
 repository root without explicit variables: it can clear runtime configuration.
 Do not put private keys, API keys or deployment state into either directory.
+To keep the sandbox site out of search, also copy `ops/sandbox-static/robots.txt` and
+`ops/sandbox-static/_headers` into the static publish directory (see
+`ops/sandbox-static/README.md`). They must never be deployed to production.
 
 The official Paddle simulator initially failed with HTTP 503: its signed
 `event_id` uses `ntfsimevt_…`, which the original validator rejected. PR #30 accepts
