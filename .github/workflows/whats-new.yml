@@ -45,5 +45,15 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
           git commit -m "Update What's new for Actua $VERSION"
-          git pull --rebase
-          git push
+          # Another workflow can push to main between our pull and our push, which
+          # makes the push fail with "cannot lock ref". Pull again and retry.
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase && git push; then
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; retrying"
+            git rebase --abort 2>/dev/null || true
+            sleep $((attempt * 5))
+          done
+          echo "Could not push to main after 5 attempts" >&2
+          exit 1
