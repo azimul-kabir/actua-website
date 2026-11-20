@@ -1,0 +1,3 @@
+# Sandbox deploy only. Never publish this file to production.
+User-agent: *
+Disallow: /
