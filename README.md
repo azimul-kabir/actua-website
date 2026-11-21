@@ -52,23 +52,21 @@ https://actua.azimulkabir.com/
 
 ### Supporter Extras pages
 
-`/support`, `/refund` and `/contact` are served from their `.html` files by
-Cloudflare Pages' clean URL handling. The pages reuse `style.css` and add
-`support.css` for page-specific styles.
+`/refund` and `/contact` are served from their `.html` files by Cloudflare
+Pages' clean URL handling. They reuse `style.css` and add `support.css` for
+page-specific styles. The old `/support` page was removed; `_redirects` sends it
+to the homepage's Supporter extras section (`/#supporters`).
 
 **Website sales are not planned for now** (decided 2026-11-21). Supporter Extras
-are sold only through the Google Play version, and the Support and Refund pages
+are sold only through the Google Play version, and the homepage and Refund page
 say so. The sandbox backend below
 stays for reference and must not be deployed to production. Restarting website
 sales would need a new seller-of-record provider, new legal copy in the app
 repository's `TERMS.md` and `PRIVACY.md`, and the work tracked in
 `docs/PADDLE_SANDBOX.md`.
 
-The legal generator preserves Support, Refund and Contact footer links. The app
-repository's `.github/FUNDING.yml` can point to
-`https://actua.azimulkabir.com/support` after these pages are deployed. This
-website change does not alter app flavors, existing purchase rights or funding
-configuration in the separate app repository.
+The legal generator preserves the Support Actua (`/#supporters`), Refund and
+Contact footer links.
 
 ### Paddle sandbox backend foundation
 
