@@ -1,5 +1,8 @@
 # Actua Paddle sandbox integration
 
+> **On hold (2026-11-21).** Website sales are not planned for now. This document is
+> kept for reference only.
+
 Status: disabled sandbox checkout, verified fulfillment and Resend recovery code
 are implemented. Isolated Cloudflare services and real sandbox checkout are
 verified, including email recovery and approved-refund refresh denial. Android

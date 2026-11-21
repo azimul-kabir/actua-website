@@ -50,32 +50,23 @@ https://actua.azimulkabir.com/
 - Google Play: https://play.google.com/store/apps/details?id=com.azimulkabir.actua
 - Report an issue: https://github.com/azimul-kabir/actua/issues/new/choose
 
-### Website purchase preparation
+### Supporter Extras pages
 
-`/support`, `/refund` and `/contact` are served from their `.html` files by
-Cloudflare Pages' clean URL handling. The Supporter Extras website price is
-US$2.99 once, approved by the maintainer. Checkout is deliberately unavailable:
-Actua 2.7.0 supports Google Play purchases, not website license activation.
-The new pages reuse `style.css` and add `support.css` for page-specific styles.
+`/refund` and `/contact` are served from their `.html` files by Cloudflare
+Pages' clean URL handling. They reuse `style.css` and add `support.css` for
+page-specific styles. The old `/support` page was removed; `_redirects` sends it
+to the homepage's Supporter extras section (`/#supporters`).
 
-Before enabling website payments:
+**Website sales are not planned for now** (decided 2026-11-21). Supporter Extras
+are sold only through the Google Play version, and the homepage and Refund page
+say so. The sandbox backend below
+stays for reference and must not be deployed to production. Restarting website
+sales would need a new seller-of-record provider, new legal copy in the app
+repository's `TERMS.md` and `PRIVACY.md`, and the work tracked in
+`docs/PADDLE_SANDBOX.md`.
 
-- Complete Paddle seller and domain approval and create the one-time product.
-- Publish final website purchase/refund terms, trader details required for the
-  sale, and accurate payment/licensing privacy disclosures. Update app legal
-  Markdown at its source rather than hand-editing generated legal pages.
-- Implement a compatible Full APK and backend: verified Paddle webhooks,
-  idempotent fulfillment, signed entitlements, restoration and refund revocation.
-- Test sandbox checkout, interrupted return, duplicate events, refund,
-  reinstall/device recovery and existing Play supporter upgrades.
-- Add Paddle Checkout only after those dependencies are ready. Keep API keys and
-  webhook secrets on the backend; a checkout redirect must not grant access.
-
-The legal generator preserves Support, Refund and Contact footer links. The app
-repository's `.github/FUNDING.yml` can point to
-`https://actua.azimulkabir.com/support` after these pages are deployed. This
-website change does not alter app flavors, existing purchase rights or funding
-configuration in the separate app repository.
+The legal generator preserves the Support Actua (`/#supporters`), Refund and
+Contact footer links.
 
 ### Paddle sandbox backend foundation
 
