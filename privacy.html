@@ -48,7 +48,7 @@
           <div class="eyebrow">LEGAL &amp; PRIVACY</div>
           <h1>Privacy Policy</h1>
           <p class="legal-meta">
-            <span>Last updated: <time datetime="2026-11-20">20 November 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
+            <span>Last updated: <time datetime="2026-11-21">21 November 2026</time></span><span class="legal-meta-separator" aria-hidden="true">·</span>
             <a href="https://github.com/azimul-kabir/actua/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
           </p>
         </header>
@@ -102,7 +102,7 @@
 
         <p>Actua does not include analytics, crash reporting, advertising or other third-party tracking SDKs, and does not collect usage data about you.</p>
 
-        <p>The one exception is receipt scanning in the Google Play version and in both GitHub Release APKs (<code>Actua-v&lt;version&gt;.apk</code> and <code>Actua-v&lt;version&gt;-full.apk</code>). It uses Google ML Kit, which can send technical diagnostics to Google (see Receipt scanning below). Actua itself still shows no ads, collects no usage data and sends no analytics of its own.</p>
+        <p>The one exception is receipt scanning in the Google Play version and in the GitHub Release APK (<code>Actua-v&lt;version&gt;.apk</code>). It uses Google ML Kit, which can send technical diagnostics to Google (see Receipt scanning below). Actua itself still shows no ads, collects no usage data and sends no analytics of its own.</p>
 
         <h2 id="diagnostics">Diagnostics</h2>
 
@@ -145,7 +145,7 @@
           <li>Nothing is saved from a scan until you check the transaction and tap Save.</li>
           <li>The camera app (not Actua) takes the photo, so Actua does not ask for camera permission.</li>
           <li>Latin, Chinese, Japanese, Korean and Devanagari scripts are read. Receipts in Cyrillic, Arabic, Hebrew, Thai, Greek or Bangla may be read badly or not at all.</li>
-          <li>Receipt scanning is in the Google Play version and in both GitHub Releases APKs (<code>Actua-v&lt;version&gt;.apk</code>, Direct Full, and <code>Actua-v&lt;version&gt;-full.apk</code>, Play Full).</li>
+          <li>Receipt scanning is in the Google Play version and in the GitHub Releases APK (<code>Actua-v&lt;version&gt;.apk</code>).</li>
         </ul>
 
         <h3 id="keeping-a-receipt-photo">Keeping a receipt photo</h3>
@@ -173,22 +173,9 @@
           <li>Photos enter encrypted WebDAV backups only, never Actual sync, local or Google Drive backups, or standard exports.</li>
         </ul>
 
-        <h2 id="website-purchases-direct-download-version-when-available">Website purchases (direct-download version, when available)</h2>
-
-        <p>Website purchases of Supporter Extras are not open yet. This is what they will involve, so you can see it before you buy. None of this applies to the Google Play version, where Google Play handles purchases, or to anything you do without buying.</p>
-
-        <ul>
-          <li><strong>Paddle</strong> is the seller of record. It collects your payment details, name, email and billing address as it needs to take payment, work out taxes and send your receipt, under <a href="https://www.paddle.com/legal/privacy" target="_blank" rel="noopener noreferrer">Paddle's privacy notice</a>. Actua never sees your payment details.</li>
-          <li><strong>What we keep.</strong> Our purchase service stores, for each purchase, Paddle's transaction and customer IDs, the product and price, when it completed, and any refund record. It does not store your payment details or budget data.</li>
-          <li><strong>Recovery email.</strong> If you ask for a new recovery code by email, you enter your email address on our recovery page. It is encrypted while the request is processed, used to find your purchase in Paddle, and erased when the request completes, fails or expires. We send the one-time code with our email provider, <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Resend</a>. Rate limits use keyed hashes of your IP address and email, not the raw values.</li>
-          <li><strong>Bot checks and hosting.</strong> The checkout and recovery pages use Cloudflare Turnstile, and the website and purchase service run on Cloudflare.</li>
-          <li><strong>On your device.</strong> Actua stores your recovery code and the signed proof of purchase encrypted with the Android Keystore, in storage that is excluded from Android backup and device transfer. They are not part of budget sync or backups.</li>
-          <li><strong>Purchase checks.</strong> To confirm a purchase, Actua sends your recovery code to our purchase service over HTTPS from time to time and receives a signed proof that lasts up to 24 hours.</li>
-        </ul>
-
         <h2 id="other-on-device-data">Other on-device data</h2>
 
-        <p>Actua keeps app settings, which bank-synced transactions you haven't viewed yet, how many transactions you've added (so the Google Play version can ask once whether you'd like to support Actua, and whether it has already asked you to rate Actua on Google Play), whether Google Play last reported you as an Actua Supporter and when it was last checked (so the Google Play version can show cosmetic Supporter extras), the optional nickname you can give the Supporter greeting and the date it last appeared, and similar display state on your device. None of it is sent anywhere, apart from the website purchase check described under Website purchases. Support Actua purchases and subscriptions are paid and managed by Google Play; Actua never sees your payment details. The rating request in the Google Play version uses Google's in-app review sheet, which Google Play runs; Actua is not told whether you rated or what you wrote.</p>
+        <p>Actua keeps app settings, which bank-synced transactions you haven't viewed yet, how many transactions you've added (so the Google Play version can ask once whether you'd like to support Actua, and whether it has already asked you to rate Actua on Google Play), whether Google Play last reported you as an Actua Supporter and when it was last checked (so the Google Play version can show cosmetic Supporter extras), the optional nickname you can give the Supporter greeting and the date it last appeared, and similar display state on your device. None of it is sent anywhere. Support Actua purchases and subscriptions are paid and managed by Google Play; Actua never sees your payment details. The rating request in the Google Play version uses Google's in-app review sheet, which Google Play runs; Actua is not told whether you rated or what you wrote.</p>
 
         <h2 id="contact">Contact</h2>
 
